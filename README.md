@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # README
 
 This README would normally document whatever steps are necessary to get the
@@ -22,3 +23,7 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+=======
+# Urjaas2
+An advanced version of the Yoga Academy project
+>>>>>>> e3c20afa711aa4062c6592255b266a7f5cfc5c10
