@@ -1,29 +1,9 @@
-<<<<<<< HEAD
-# README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-=======
 # Urjaas2
-An advanced version of the Yoga Academy project
->>>>>>> e3c20afa711aa4062c6592255b266a7f5cfc5c10
+
+An advanced version of the Yoga Academy project built on Rails 8.
+
+Features -
+
+1.  WYSIWYG blog editor
+2.  Drag and drop page builder
+3.  Payment gateway (RazorPay) integration
