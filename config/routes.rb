@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get "landing_pages", to: "landing_pages#index"
-  get "landing_pages/show", to: "landing_pages#show", as: :landing_page
+  get "landing_pages/:slug", to: "landing_pages#show", as: :landing_page
   resources :blog_posts
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
