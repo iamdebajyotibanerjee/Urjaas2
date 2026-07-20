@@ -1,0 +1,5 @@
+<main class="landing-page">
+  <% @landing_page.page_blocks.order(:position).each do |block| %>
+    <%= render "landing_pages/blocks/#{block.block_type}", block: block %>
+  <% end %>
+</main>

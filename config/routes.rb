@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "landing_pages", to: "landing_pages#index"
+  get "landing_pages/:slug", to: "landing_pages#show", as: :landing_page
   resources :blog_posts
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -11,5 +13,5 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "landing_pages#index"
 end
