@@ -1,0 +1,7 @@
+<div id="<%= dom_id(page_block) %>" style="border: 1px dashed #bbb; margin-bottom: 1rem; padding: 1rem; border-radius: 4px; background: #f9f9f9;">
+  <strong style="color: #555;">[<%= page_block.block_type.upcase %> BLOCK]</strong>
+  <h4 style="margin: 0.5rem 0 0 0;"><%= page_block.content["headline"] %></h4>
+  <% if page_block.content["subheadline"].present? %>
+    <p style="margin: 0.25rem 0 0 0; color: #666;"><%= page_block.content["subheadline"] %></p>
+  <% end %>
+</div>

@@ -2,6 +2,14 @@ Rails.application.routes.draw do
   get "landing_pages", to: "landing_pages#index"
   get "landing_pages/:slug", to: "landing_pages#show", as: :landing_page
   resources :blog_posts
+
+  # Admin landing page & blocks routes (Task 2)
+  namespace :admin do
+    resources :landing_pages do
+      resources :page_blocks, only: [ :create, :destroy, :update ]
+    end
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
