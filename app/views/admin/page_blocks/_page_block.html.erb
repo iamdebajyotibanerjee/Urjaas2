@@ -4,4 +4,12 @@
   <% if page_block.content["subheadline"].present? %>
     <p style="margin: 0.25rem 0 0 0; color: #666;"><%= page_block.content["subheadline"] %></p>
   <% end %>
+
+  <% if page_block.content["button_text"].present? %>
+      Button: <%= page_block.content["button_text"] %>
+  <% end %>
+  
+
+
+  <%= button_to "Delete", admin_landing_page_page_block_path(page_block.landing_page, page_block), method: :delete, data: { turbo_confirm: "Delete this block?" }, style: "background: #dc3545; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer;" %>
 </div>

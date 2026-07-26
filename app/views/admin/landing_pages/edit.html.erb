@@ -4,7 +4,9 @@
   <!-- Left side: Live Block Preview List -->
   <div style="flex: 1; border: 1px solid #ddd; padding: 1.5rem; border-radius: 8px;">
     <h3>Page Blocks</h3>
-    <div id="page_blocks">
+    <div id="page_blocks" 
+     data-controller="sortable" 
+     data-sortable-url-value="<%= reorder_admin_landing_page_page_blocks_path(@landing_page) %>">
       <% @landing_page.page_blocks.order(:position).each do |block| %>
         <%= render "admin/page_blocks/page_block", page_block: block %>
       <% end %>
@@ -28,6 +30,27 @@
       </div>
 
       <%= f.submit "Add Block", style: "padding: 0.6rem 1.2rem; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px;" %>
+    <% end %>
+    <%# Add CTA Block %>
+    <%= form_with(model: [:admin, @landing_page, @new_block]) do |f| %>
+      <%= f.hidden_field :block_type, value: "cta" %>
+      
+      
+        Headline
+        <%= text_field_tag "page_block[content][headline]", "", required: true, style: "width: 100%; padding: 0.5rem;" %>
+      
+
+      
+        Button Text
+        <%= text_field_tag "page_block[content][button_text]", "Get Started", style: "width: 100%; padding: 0.5rem;" %>
+      
+
+      
+        Button URL
+        <%= text_field_tag "page_block[content][button_url]", "#", style: "width: 100%; padding: 0.5rem;" %>
+      
+
+      <%= f.submit "Add CTA Block", style: "padding: 0.6rem 1.2rem; cursor: pointer; background: #28a745; color: white; border: none; border-radius: 4px;" %>
     <% end %>
   </div>
 </div>

@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   # Admin landing page & blocks routes (Task 2)
   namespace :admin do
     resources :landing_pages do
-      resources :page_blocks, only: [ :create, :destroy, :update ]
+      resources :page_blocks, only: [ :create, :destroy, :update ] do
+        patch :reorder, on: :collection
+      end
     end
   end
 
