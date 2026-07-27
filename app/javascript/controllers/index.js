@@ -9,3 +9,6 @@ application.register("hello", HelloController)
 
 import SortableController from "controllers/sortable_controller"
 application.register("sortable", SortableController)
+
+import PreviewController from "controllers/preview_controller"
+application.register("preview", PreviewController)
