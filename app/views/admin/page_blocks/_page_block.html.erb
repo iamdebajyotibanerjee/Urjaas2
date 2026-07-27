@@ -1,15 +1,37 @@
-<div id="<%= dom_id(page_block) %>" style="border: 1px dashed #bbb; margin-bottom: 1rem; padding: 1rem; border-radius: 4px; background: #f9f9f9;">
-  <strong style="color: #555;">[<%= page_block.block_type.upcase %> BLOCK]</strong>
-  <h4 style="margin: 0.5rem 0 0 0;"><%= page_block.content["headline"] %></h4>
-  <% if page_block.content["subheadline"].present? %>
-    <p style="margin: 0.25rem 0 0 0; color: #666;"><%= page_block.content["subheadline"] %></p>
-  <% end %>
+<%# app/views/admin/page_blocks/_page_block.html.erb %>
+<div class="bg-white border border-slate-200/80 rounded-xl p-4 shadow-2xs hover:shadow-md transition-all flex items-center justify-between group" id="page_block_<%= page_block.id %>">
+  <div class="flex items-center gap-4">
+    <!-- Drag Handle -->
+    <div class="text-slate-300 group-hover:text-slate-500 cursor-grab active:cursor-grabbing p-1 hover:bg-slate-50 rounded transition" title="Drag to reorder">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+      </svg>
+    </div>
 
-  <% if page_block.content["button_text"].present? %>
-      Button: <%= page_block.content["button_text"] %>
-  <% end %>
-  
+    <!-- Content Summary -->
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        <span class="inline-block px-2 py-0.5 text-[10px] font-bold text-slate-600 bg-slate-100 border border-slate-200/60 rounded uppercase tracking-wider">
+          <%= page_block.block_type %>
+        </span>
+      </div>
+      <h5 class="text-sm font-semibold text-slate-800">
+        <%= page_block.content&.dig("title") || page_block.content&.dig("heading") || page_block.content&.dig("headline") || "New #{page_block.block_type.titleize} Block" %>
+      </h5>
+    </div>
+  </div>
 
-
-  <%= button_to "Delete", admin_landing_page_page_block_path(page_block.landing_page, page_block), method: :delete, data: { turbo_confirm: "Delete this block?" }, style: "background: #dc3545; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer;" %>
+  <!-- Position & Controls -->
+  <div class="flex items-center gap-3">
+    <span class="text-xs font-mono font-medium text-slate-400 bg-slate-50 border border-slate-200/50 px-2.5 py-1 rounded-md">
+      Pos: <%= page_block.position %>
+    </span>
+    
+    <%= button_to admin_landing_page_page_block_path(page_block.landing_page, page_block),
+          method: :delete,
+          class: "px-3 py-1.5 text-xs text-red-600 hover:text-white hover:bg-red-600 border border-red-200 hover:border-red-600 rounded-lg transition font-medium",
+          data: { turbo_confirm: "Are you sure you want to delete this block?" } do %>
+      Delete
+    <% end %>
+  </div>
 </div>

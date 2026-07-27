@@ -1,5 +1,5 @@
-<main class="landing-page">
+<div class="min-h-screen bg-white font-sans text-slate-900 antialiased">
   <% @landing_page.page_blocks.order(:position).each do |block| %>
     <%= render "landing_pages/blocks/#{block.block_type}", block: block %>
   <% end %>
-</main>
+</div>

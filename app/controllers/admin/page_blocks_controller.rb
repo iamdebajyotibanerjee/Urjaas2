@@ -1,36 +1,36 @@
+# app/controllers/admin/page_blocks_controller.rb
 module Admin
   class PageBlocksController < ApplicationController
-    # Create a new page block
+    before_action :set_landing_page
+
     def create
-      @landing_page = LandingPage.find(params[:landing_page_id])
+      # Calculate the next position number automatically
+      next_position = @landing_page.page_blocks.maximum(:position).to_i + 1
+
       @page_block = @landing_page.page_blocks.build(page_block_params)
-      @page_block.position = (@landing_page.page_blocks.maximum(:position) || 0) + 1
+      @page_block.position = next_position
 
       if @page_block.save
         respond_to do |format|
           format.turbo_stream
-          format.html { redirect_to edit_admin_landing_page_path(@landing_page) }
+          format.html { redirect_to edit_admin_landing_page_path(@landing_page), notice: "Block added!" }
         end
+      else
+        redirect_to edit_admin_landing_page_path(@landing_page), alert: "Could not add block."
       end
     end
 
-    # Destroy a page block
     def destroy
-      @landing_page = LandingPage.find(params[:landing_page_id])
       @page_block = @landing_page.page_blocks.find(params[:id])
       @page_block.destroy
 
       respond_to do |format|
-        format.turbo_stream
-        format.html { redirect_to edit_admin_landing_page_path(@landing_page) }
+        format.turbo_stream { render turbo_stream: turbo_stream.remove("page_block_#{@page_block.id}") }
+        format.html { redirect_to edit_admin_landing_page_path(@landing_page), notice: "Block deleted!" }
       end
     end
 
-    # Reorder page blocks
     def reorder
-      @landing_page = LandingPage.find(params[:landing_page_id])
-
-      # Batch update positions based on the array of block IDs sent from JavaScript
       params[:block_ids].each_with_index do |id, index|
         @landing_page.page_blocks.where(id: id).update_all(position: index + 1)
       end
@@ -40,10 +40,12 @@ module Admin
 
     private
 
+    def set_landing_page
+      @landing_page = LandingPage.find(params[:landing_page_id])
+    end
+
     def page_block_params
-      params.require(:page_block).permit(:block_type).tap do |whitelisted|
-        whitelisted[:content] = params[:page_block][:content]&.to_unsafe_h || {}
-      end
+      params.require(:page_block).permit(:block_type)
     end
   end
 end

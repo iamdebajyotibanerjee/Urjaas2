@@ -1,0 +1,17 @@
+<%# app/views/landing_pages/blocks/_faq.html.erb %>
+<section class="py-16 lg:py-24 bg-slate-50/50 border-b border-slate-100">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6">
+    <h2 class="text-3xl font-bold text-slate-900 text-center tracking-tight mb-12">
+      <%= block.content&.dig("title") || "Frequently Asked Questions" %>
+    </h2>
+
+    <div class="space-y-4">
+      <% (block.content&.dig("questions") || []).each do |q_and_a| %>
+        <div class="bg-white border border-slate-200/80 rounded-xl p-6 shadow-2xs">
+          <h3 class="text-base font-semibold text-slate-900 mb-2"><%= q_and_a["q"] %></h3>
+          <p class="text-sm text-slate-600 leading-relaxed"><%= q_and_a["a"] %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

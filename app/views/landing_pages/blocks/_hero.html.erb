@@ -1,4 +1,19 @@
-<section class="hero-block" style="text-align: center; padding: 4rem 1rem;">
-  <h1><%= block.content["headline"] %></h1>
-  <p><%= block.content["subheadline"] %></p>
+<%# app/views/landing_pages/blocks/_hero.html.erb %>
+<section class="py-20 lg:py-28 bg-gradient-to-b from-slate-50 via-indigo-50/20 to-white border-b border-slate-100">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6">
+      <%= block.content&.dig("title") || "Welcome to Our Platform" %>
+    </h1>
+    
+    <p class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto mb-8 leading-relaxed">
+      <%= block.content&.dig("subtitle") || "The easiest way to launch beautiful, high-converting landing pages." %>
+    </p>
+
+    <% if block.content&.dig("cta_text").present? %>
+      <a href="<%= block.content&.dig("cta_url") || "#" %>" 
+         class="inline-flex items-center justify-center px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-base rounded-xl shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+        <%= block.content&.dig("cta_text") %>
+      </a>
+    <% end %>
+  </div>
 </section>

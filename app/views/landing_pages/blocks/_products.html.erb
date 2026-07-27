@@ -1,0 +1,63 @@
+<%# app/views/landing_pages/blocks/_products.html.erb %>
+<% 
+  items = block.content&.dig("items") || []
+  columns_count = block.content&.dig("columns") || items.count
+  grid_cols_class = columns_count.to_i == 2 ? "md:grid-cols-2 max-w-4xl" : "md:grid-cols-3 max-w-6xl"
+%>
+
+<section class="py-16 lg:py-24 bg-slate-50/60 border-b border-slate-100">
+  <div class="mx-auto px-4 sm:px-6 <%= grid_cols_class %>">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
+        <%= block.content&.dig("heading") || "Products & Pricing" %>
+      </h2>
+      <p class="text-base text-slate-600">
+        <%= block.content&.dig("subheading") || "Flexible plans designed to grow with your business." %>
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 <%= grid_cols_class %> gap-8 mx-auto items-stretch">
+      <% items.each do |product| %>
+        <% is_featured = product["featured"] == true %>
+        <div class="bg-white rounded-2xl p-8 flex flex-col justify-between relative transition-all duration-200 <%= is_featured ? 'border-2 border-indigo-600 shadow-xl scale-105 z-10' : 'border border-slate-200 shadow-xs hover:shadow-md' %>">
+          
+          <% if product["badge"].present? %>
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2">
+              <span class="bg-indigo-600 text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-xs">
+                <%= product["badge"] %>
+              </span>
+            </div>
+          <% end %>
+
+          <div>
+            <h3 class="text-xl font-bold text-slate-900 mb-2"><%= product["name"] %></h3>
+            <p class="text-xs text-slate-500 mb-6 min-h-[32px]"><%= product["description"] %></p>
+
+            <div class="flex items-baseline gap-1 mb-6">
+              <span class="text-4xl font-extrabold text-slate-900 tracking-tight"><%= product["price"] %></span>
+              <span class="text-sm font-medium text-slate-500"><%= product["period"] %></span>
+            </div>
+
+            <% if product["features"].is_a?(Array) %>
+              <ul class="space-y-3 mb-8 border-t border-slate-100 pt-6">
+                <% product["features"].each do |feature| %>
+                  <li class="flex items-start gap-2.5 text-xs text-slate-600">
+                    <svg class="h-4 w-4 text-indigo-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <%= feature %>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+          </div>
+
+          <a href="<%= product["button_url"] || "#" %>" 
+             class="w-full text-center py-3 px-4 rounded-xl text-xs font-bold transition-all shadow-xs <%= is_featured ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-200' : 'bg-slate-100 hover:bg-slate-200 text-slate-800' %>">
+            <%= product["button_text"] || "Get Started" %>
+          </a>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

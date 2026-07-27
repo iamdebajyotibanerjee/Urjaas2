@@ -1,6 +1,14 @@
-<%= block.content["headline"] %>
-  <% if block.content["button_text"].present? %>
-    " style="display: inline-block; padding: 0.75rem 1.5rem; background: #28a745; color: white; text-decoration: none; border-radius: 4px; font-weight: bold; margin-top: 1rem;">
-      <%= block.content["button_text"] %>
-    
-  <% end %>
+<%# app/views/landing_pages/blocks/_cta.html.erb %>
+<section class="py-16 lg:py-20 bg-indigo-600 text-white">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-6">
+      <%= block.content&.dig("headline") || "Ready to get started?" %>
+    </h2>
+    <% if block.content&.dig("button_text").present? %>
+      <a href="<%= block.content&.dig("button_url") || "#" %>" 
+         class="inline-flex items-center justify-center px-6 py-3.5 bg-white hover:bg-slate-100 text-indigo-600 font-bold text-base rounded-xl shadow-lg transition-all">
+        <%= block.content&.dig("button_text") %>
+      </a>
+    <% end %>
+  </div>
+</section>
