@@ -1,10 +1,9 @@
 <%# app/views/admin/landing_pages/edit.html.erb %>
 
-<!-- Centered Layout Container with Breathing Room -->
-<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
+<div data-controller="preview" class="w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
-  <!-- Header Card -->
-  <div class="bg-white rounded-xl border border-slate-200/80 p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+  <!-- Top Action Bar -->
+  <div class="bg-white rounded-xl border border-slate-200/80 p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
     <div>
       <div class="flex items-center gap-2 mb-1">
         <span class="px-2.5 py-0.5 text-xs font-semibold text-indigo-700 bg-indigo-50 rounded-full border border-indigo-100">Page Builder</span>
@@ -12,28 +11,100 @@
         <span class="text-xs text-slate-500 font-mono">ID: <%= @landing_page.id %></span>
       </div>
       <h1 class="text-2xl font-bold text-slate-900 tracking-tight"><%= @landing_page.title %></h1>
-      <p class="text-xs text-slate-500 mt-1">Drag blocks to reorder your page layout or insert new section templates.</p>
     </div>
-    
-    <!-- Trigger Modal Button -->
-    <button type="button" 
-            onclick="document.getElementById('addBlockModal').showModal()"
-            class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-lg shadow-sm transition-all focus:ring-2 focus:ring-indigo-500/20 active:scale-95 shrink-0">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-      </svg>
-      Add Block
-    </button>
+
+    <div class="flex items-center gap-3">
+      <!-- Mode Switcher Tabs -->
+      <div class="bg-slate-100 p-1 rounded-xl flex items-center gap-1 border border-slate-200/60">
+        <button type="button" 
+                data-preview-target="viewBtn"
+                data-mode="edit"
+                data-action="click->preview#setMode"
+                class="px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition">
+          ✏️ Edit Only
+        </button>
+        <button type="button" 
+                data-preview-target="viewBtn"
+                data-mode="split"
+                data-action="click->preview#setMode"
+                class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-white text-indigo-600 shadow-xs transition">
+          ⚖️ Split View
+        </button>
+        <button type="button" 
+                data-preview-target="viewBtn"
+                data-mode="preview"
+                data-action="click->preview#setMode"
+                class="px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition">
+          👁️ Preview Only
+        </button>
+      </div>
+
+      <!-- Add Block Button -->
+      <button type="button" 
+              onclick="document.getElementById('addBlockModal').showModal()"
+              class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs rounded-lg shadow-sm transition-all focus:ring-2 focus:ring-indigo-500/20 active:scale-95 shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+        Add Block
+      </button>
+    </div>
   </div>
 
-  <!-- Drag-and-Drop Container -->
-  <div id="page_blocks" 
-       class="space-y-3"
-       data-controller="sortable" 
-       data-sortable-url-value="<%= reorder_admin_landing_page_page_blocks_path(@landing_page) %>">
-    <% @landing_page.page_blocks.order(:position).each do |block| %>
-      <%= render "admin/page_blocks/page_block", page_block: block %>
-    <% end %>
+  <!-- Workspace Container (Split Pane) -->
+  <div class="flex flex-col lg:flex-row gap-6 items-start">
+    
+    <!-- LEFT: Block Editor Pane -->
+    <div data-preview-target="editorPane" class="w-full lg:w-1/2 space-y-3 transition-all duration-300">
+      <div class="flex justify-between items-center px-1">
+        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Page Structure</h3>
+        <span class="text-xs text-slate-400">Drag items to rearrange order</span>
+      </div>
+
+      <div id="page_blocks" 
+           class="space-y-3"
+           data-controller="sortable" 
+           data-sortable-url-value="<%= reorder_admin_landing_page_page_blocks_path(@landing_page) %>">
+        <% @landing_page.page_blocks.order(:position).each do |block| %>
+          <%= render "admin/page_blocks/page_block", page_block: block %>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- RIGHT: Live Preview Pane -->
+    <div data-preview-target="previewPane" class="w-full lg:w-1/2 sticky top-6 transition-all duration-300">
+      <div class="bg-slate-900 rounded-2xl border border-slate-800 p-2 shadow-2xl overflow-hidden">
+        
+        <!-- Browser Window Header Bar -->
+        <div class="flex items-center justify-between px-3 py-2 border-b border-slate-800 bg-slate-950/50 rounded-t-xl mb-1">
+          <div class="flex items-center gap-1.5">
+            <div class="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
+          </div>
+
+          <div class="px-3 py-0.5 bg-slate-800 rounded-md text-[11px] text-slate-400 font-mono truncate max-w-xs">
+            <%= landing_page_url(@landing_page) %>
+          </div>
+
+          <button type="button" 
+                  data-action="click->preview#refreshIframe" 
+                  class="text-slate-400 hover:text-white p-1 rounded transition" 
+                  title="Manual Reload Preview">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Public Page Preview Iframe -->
+        <iframe data-preview-target="iframe"
+                src="<%= landing_page_path(@landing_page) %>" 
+                class="w-full h-[750px] rounded-b-xl bg-white border-0 transition-opacity duration-200">
+        </iframe>
+      </div>
+    </div>
+
   </div>
 
 </div>
@@ -41,7 +112,6 @@
 <!-- Template Library Modal -->
 <dialog id="addBlockModal" class="rounded-2xl shadow-2xl p-0 w-full max-w-2xl backdrop:bg-slate-900/40 backdrop:backdrop-blur-sm border border-slate-200/80">
   <div class="p-6">
-    <!-- Modal Header -->
     <div class="flex justify-between items-center pb-4 mb-5 border-b border-slate-100">
       <div>
         <h3 class="text-lg font-bold text-slate-900">Select a Block Template</h3>
@@ -56,7 +126,6 @@
       </form>
     </div>
 
-    <!-- Template Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <% PageBlock::TEMPLATES.each do |key, template| %>
         <div class="border border-slate-200 hover:border-indigo-400 rounded-xl p-4 flex flex-col justify-between bg-white hover:shadow-sm transition group">

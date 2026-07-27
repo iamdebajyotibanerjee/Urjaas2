@@ -9,8 +9,26 @@ export default class extends Controller {
     this.sortable = new Sortable(this.element, {
       animation: 150,
       ghostClass: 'bg-light',
-      onEnd: this.reorder.bind(this)
-    })
+      onEnd: (event) => {
+        const blockIds = Array.from(this.element.children).map(child => {
+          return child.id.replace('page_block_', '')
+        })
+
+        fetch(this.urlValue, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify({ block_ids: blockIds })
+        }).then(response => {
+          if (response.ok) {
+            // Dispatch an event to tell the preview controller to refresh the iframe!
+            document.dispatchEvent(new CustomEvent("turbo:before-stream-render"))
+          }
+        })
+      }
+          })
   }
 
   reorder(event) {
