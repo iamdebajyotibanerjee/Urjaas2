@@ -1,0 +1,4 @@
+<%# app/views/admin/page_blocks/update.turbo_stream.erb %>
+<%= turbo_stream.replace "page_block_#{@page_block.id}" do %>
+  <%= render "admin/page_blocks/page_block", page_block: @page_block %>
+<% end %>

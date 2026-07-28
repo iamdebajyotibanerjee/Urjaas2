@@ -1,18 +1,37 @@
 <%# app/views/landing_pages/blocks/_testimonials.html.erb %>
-<section class="py-16 lg:py-24 bg-white border-b border-slate-100">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+<% 
+  settings = block.content&.dig("settings") || {}
+  bg_color = settings["bg_color"].presence || "bg-white"
+  padding = settings["padding"].presence || "py-16 lg:py-24"
+  font_family = settings["font_family"].presence || "font-sans"
+  bg_image = settings["bg_image_url"]
+
+  # Normalize items: handle both legacy Hash format {"0" => {...}} and standard Array
+  raw_items = block.content&.dig("items")
+  items = raw_items.is_a?(Hash) ? raw_items.values : Array(raw_items)
+%>
+
+<section class="<%= bg_color %> <%= padding %> <%= font_family %> border-b border-slate-100 bg-cover bg-center relative" 
+         style="<%= "background-image: url('#{bg_image}');" if bg_image.present? %>">
+  
+  <% if bg_image.present? %>
+    <!-- Overlay when background image is present -->
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-xs"></div>
+  <% end %>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
     <div class="text-center max-w-2xl mx-auto mb-16">
-      <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-3">
+      <h2 class="text-3xl font-extrabold tracking-tight mb-3">
         <%= block.content&.dig("heading") || "Customer Testimonials" %>
       </h2>
-      <p class="text-base text-slate-600">
+      <p class="text-base opacity-80">
         <%= block.content&.dig("subheading") || "See what teams are achieving with our tools." %>
       </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <% (block.content&.dig("items") || []).each do |testimonial| %>
-        <div class="bg-slate-50/70 border border-slate-200/80 rounded-2xl p-8 flex flex-col justify-between shadow-2xs hover:shadow-xs transition">
+      <% items.each do |testimonial| %>
+        <div class="bg-white/90 backdrop-blur-md border border-slate-200/80 text-slate-900 rounded-2xl p-8 flex flex-col justify-between shadow-sm">
           <div>
             <!-- Star Rating -->
             <div class="flex items-center gap-1 text-amber-400 mb-4">
@@ -24,7 +43,7 @@
             </div>
 
             <!-- Quote -->
-            <blockquote class="text-slate-700 text-base leading-relaxed italic mb-6">
+            <blockquote class="text-slate-800 text-base leading-relaxed italic mb-6">
               "<%= testimonial["quote"] %>"
             </blockquote>
           </div>

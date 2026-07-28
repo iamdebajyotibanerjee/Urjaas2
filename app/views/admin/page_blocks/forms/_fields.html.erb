@@ -1,0 +1,233 @@
+<%# app/views/admin/page_blocks/forms/_fields.html.erb %>
+
+<div class="space-y-6 text-left">
+
+  <!-- ========================================== -->
+  <!-- SECTION 1: APPEARANCE & STYLING CONTROLS   -->
+  <!-- ========================================== -->
+  <div class="bg-indigo-50/50 border border-indigo-100 rounded-xl p-4 space-y-4">
+    <h5 class="text-xs font-bold text-indigo-900 uppercase tracking-wider flex items-center gap-1.5">
+      <span>🎨</span> Block Appearance & Styling
+    </h5>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <!-- Background Color -->
+      <div>
+        <label class="block text-[11px] font-semibold text-slate-700 mb-1">Background Style</label>
+        <select name="page_block[content][settings][bg_color]" class="w-full text-xs px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500/20">
+          <option value="bg-white" <%= "selected" if page_block.content&.dig("settings", "bg_color") == "bg-white" %>>Clean White</option>
+          <option value="bg-slate-50" <%= "selected" if page_block.content&.dig("settings", "bg_color") == "bg-slate-50" %>>Slate Light Gray</option>
+          <option value="bg-slate-900 text-white" <%= "selected" if page_block.content&.dig("settings", "bg_color") == "bg-slate-900 text-white" %>>Dark Slate</option>
+          <option value="bg-indigo-900 text-white" <%= "selected" if page_block.content&.dig("settings", "bg_color") == "bg-indigo-900 text-white" %>>Indigo Dark</option>
+          <option value="bg-indigo-50/50" <%= "selected" if page_block.content&.dig("settings", "bg_color") == "bg-indigo-50/50" %>>Indigo Soft Tint</option>
+        </select>
+      </div>
+
+      <!-- Vertical Padding -->
+      <div>
+        <label class="block text-[11px] font-semibold text-slate-700 mb-1">Vertical Spacing</label>
+        <select name="page_block[content][settings][padding]" class="w-full text-xs px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500/20">
+          <option value="py-12" <%= "selected" if page_block.content&.dig("settings", "padding") == "py-12" %>>Compact (3rem)</option>
+          <option value="py-20" <%= "selected" if page_block.content&.dig("settings", "padding") == "py-20" || page_block.content&.dig("settings", "padding").blank? %>>Default (5rem)</option>
+          <option value="py-28" <%= "selected" if page_block.content&.dig("settings", "padding") == "py-28" %>>Spacious (7rem)</option>
+        </select>
+      </div>
+
+      <!-- Font Style -->
+      <div>
+        <label class="block text-[11px] font-semibold text-slate-700 mb-1">Font Family</label>
+        <select name="page_block[content][settings][font_family]" class="w-full text-xs px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500/20">
+          <option value="font-sans" <%= "selected" if page_block.content&.dig("settings", "font_family") == "font-sans" %>>Sans-Serif (Modern)</option>
+          <option value="font-serif" <%= "selected" if page_block.content&.dig("settings", "font_family") == "font-serif" %>>Serif (Editorial)</option>
+          <option value="font-mono" <%= "selected" if page_block.content&.dig("settings", "font_family") == "font-mono" %>>Monospace (Tech)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Background Image URL -->
+    <div>
+      <label class="block text-[11px] font-semibold text-slate-700 mb-1">Background Image URL (Optional)</label>
+      <input type="text" name="page_block[content][settings][bg_image_url]" value="<%= page_block.content&.dig("settings", "bg_image_url") %>" placeholder="https://images.unsplash.com/photo-..." class="w-full text-xs px-3 py-1.5 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500/20">
+    </div>
+  </div>
+
+  <hr class="border-slate-200" />
+
+  <!-- ========================================== -->
+  <!-- SECTION 2: BLOCK CONTENT & ITEMS EDITING   -->
+  <!-- ========================================== -->
+  
+  <% case page_block.block_type %>
+  <% when "hero" %>
+    <div class="space-y-3">
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Main Headline Title</label>
+        <input type="text" name="page_block[content][title]" value="<%= page_block.content&.dig("title") %>" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-lg">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Subtitle</label>
+        <textarea name="page_block[content][subtitle]" rows="2" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-lg"><%= page_block.content&.dig("subtitle") %></textarea>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">CTA Button Text</label>
+          <input type="text" name="page_block[content][cta_text]" value="<%= page_block.content&.dig("cta_text") %>" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-lg">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">CTA URL</label>
+          <input type="text" name="page_block[content][cta_url]" value="<%= page_block.content&.dig("cta_url") %>" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-lg">
+        </div>
+      </div>
+    </div>
+
+  <% when "testimonials" %>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Section Heading</label>
+        <input type="text" name="page_block[content][heading]" value="<%= page_block.content&.dig("heading") %>" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-lg">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Subheading</label>
+        <input type="text" name="page_block[content][subheading]" value="<%= page_block.content&.dig("subheading") %>" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-lg">
+      </div>
+
+      <h6 class="text-xs font-bold text-slate-800 pt-2">Testimonial Cards</h6>
+      <% (page_block.content&.dig("items") || []).each_with_index do |item, idx| %>
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-2">
+          <div class="flex justify-between items-center text-[11px] font-bold text-slate-500">
+            <span>Testimonial #<%= idx + 1 %></span>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-medium text-slate-600">Quote Text</label>
+            <textarea name="page_block[content][items][<%= idx %>][quote]" rows="2" class="w-full text-xs px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg"><%= item["quote"] %></textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-medium text-slate-600">Author Name</label>
+              <input type="text" name="page_block[content][items][<%= idx %>][author]" value="<%= item["author"] %>" class="w-full text-xs px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg">
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-600">Role / Company</label>
+              <input type="text" name="page_block[content][items][<%= idx %>][role]" value="<%= item["role"] %>" class="w-full text-xs px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-medium text-slate-600">Avatar Image URL</label>
+              <input type="text" name="page_block[content][items][<%= idx %>][avatar_url]" value="<%= item["avatar_url"] %>" class="w-full text-xs px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg">
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-600">Rating (1 to 5 Stars)</label>
+              <input type="number" min="1" max="5" name="page_block[content][items][<%= idx %>][rating]" value="<%= item["rating"] || 5 %>" class="w-full text-xs px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg">
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+  <% when "products" %>
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Section Heading</label>
+          <input type="text" name="page_block[content][heading]" value="<%= page_block.content&.dig("heading") %>" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-lg">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Columns Layout</label>
+          <select name="page_block[content][columns]" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-lg">
+            <option value="2" <%= "selected" if page_block.content&.dig("columns").to_i == 2 %>>2 Columns</option>
+            <option value="3" <%= "selected" if page_block.content&.dig("columns").to_i == 3 || page_block.content&.dig("columns").blank? %>>3 Columns</option>
+          </select>
+        </div>
+      </div>
+
+      <h6 class="text-xs font-bold text-slate-800 pt-2">Product & Pricing Cards</h6>
+      <% (page_block.content&.dig("items") || []).each_with_index do |product, idx| %>
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-2">
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="block text-[11px] font-medium text-slate-600">Product Name</label>
+              <input type="text" name="page_block[content][items][<%= idx %>][name]" value="<%= product["name"] %>" class="w-full text-xs px-2 py-1.5 bg-white border border-slate-200 rounded-lg">
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-600">Price (e.g. $49)</label>
+              <input type="text" name="page_block[content][items][<%= idx %>][price]" value="<%= product["price"] %>" class="w-full text-xs px-2 py-1.5 bg-white border border-slate-200 rounded-lg">
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-600">Billing Period</label>
+              <input type="text" name="page_block[content][items][<%= idx %>][period]" value="<%= product["period"] %>" class="w-full text-xs px-2 py-1.5 bg-white border border-slate-200 rounded-lg">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-medium text-slate-600">Short Description</label>
+            <input type="text" name="page_block[content][items][<%= idx %>][description]" value="<%= product["description"] %>" class="w-full text-xs px-2 py-1.5 bg-white border border-slate-200 rounded-lg">
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-medium text-slate-600">Button Text</label>
+              <input type="text" name="page_block[content][items][<%= idx %>][button_text]" value="<%= product["button_text"] %>" class="w-full text-xs px-2 py-1.5 bg-white border border-slate-200 rounded-lg">
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-600">Badge Text (e.g. Popular)</label>
+              <input type="text" name="page_block[content][items][<%= idx %>][badge]" value="<%= product["badge"] %>" class="w-full text-xs px-2 py-1.5 bg-white border border-slate-200 rounded-lg">
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+  <% when "social_gallery" %>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-xs font-semibold text-slate-700 mb-1">Section Heading</label>
+        <input type="text" name="page_block[content][heading]" value="<%= page_block.content&.dig("heading") %>" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-lg">
+      </div>
+
+      <h6 class="text-xs font-bold text-slate-800 pt-2">Social Posts & Tweets</h6>
+      <% (page_block.content&.dig("items") || []).each_with_index do |post, idx| %>
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 space-y-2">
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="block text-[11px] font-medium text-slate-600">User Name</label>
+              <input type="text" name="page_block[content][items][<%= idx %>][name]" value="<%= post["name"] %>" class="w-full text-xs px-2 py-1.5 bg-white border border-slate-200 rounded-lg">
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-600">Handle (@name)</label>
+              <input type="text" name="page_block[content][items][<%= idx %>][handle]" value="<%= post["handle"] %>" class="w-full text-xs px-2 py-1.5 bg-white border border-slate-200 rounded-lg">
+            </div>
+            <div>
+              <label class="block text-[11px] font-medium text-slate-600">Platform</label>
+              <input type="text" name="page_block[content][items][<%= idx %>][platform]" value="<%= post["platform"] %>" class="w-full text-xs px-2 py-1.5 bg-white border border-slate-200 rounded-lg">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-medium text-slate-600">Comment / Tweet Body</label>
+            <textarea name="page_block[content][items][<%= idx %>][comment]" rows="2" class="w-full text-xs px-2 py-1.5 bg-white border border-slate-200 rounded-lg"><%= post["comment"] %></textarea>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-medium text-slate-600">Avatar Image URL</label>
+            <input type="text" name="page_block[content][items][<%= idx %>][avatar_url]" value="<%= post["avatar_url"] %>" class="w-full text-xs px-2 py-1.5 bg-white border border-slate-200 rounded-lg">
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+  <% else %>
+    <div>
+      <label class="block text-xs font-semibold text-slate-700 mb-1">Section Heading / Title</label>
+      <input type="text" name="page_block[content][heading]" value="<%= page_block.content&.dig("heading") || page_block.content&.dig("title") %>" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-lg">
+    </div>
+    <div>
+      <label class="block text-xs font-semibold text-slate-700 mb-1">Subheading</label>
+      <input type="text" name="page_block[content][subheading]" value="<%= page_block.content&.dig("subheading") %>" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-lg">
+    </div>
+  <% end %>
+
+</div>
