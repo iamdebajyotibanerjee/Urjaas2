@@ -9,6 +9,18 @@
         <span class="px-2.5 py-0.5 text-xs font-semibold text-indigo-700 bg-indigo-50 rounded-full border border-indigo-100">Page Builder</span>
         <span class="text-xs text-slate-400">•</span>
         <span class="text-xs text-slate-500 font-mono">ID: <%= @landing_page.id %></span>
+        <span class="text-xs text-slate-400">•</span>
+        
+        <!-- Status Badge -->
+        <% if @landing_page.published? %>
+          <span class="px-2.5 py-0.5 text-xs font-semibold text-emerald-700 bg-emerald-50 rounded-full border border-emerald-200/80 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Published
+          </span>
+        <% else %>
+          <span class="px-2.5 py-0.5 text-xs font-semibold text-amber-700 bg-amber-50 rounded-full border border-amber-200/80 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Draft
+          </span>
+        <% end %>
       </div>
       <h1 class="text-2xl font-bold text-slate-900 tracking-tight"><%= @landing_page.title %></h1>
     </div>
@@ -38,6 +50,17 @@
           👁️ Preview Only
         </button>
       </div>
+
+      <!-- Publish/Unpublish Toggle Button -->
+      <%= button_to toggle_publish_admin_landing_page_path(@landing_page),
+                    method: :patch,
+                    class: "inline-flex items-center justify-center gap-2 px-4 py-2 #{@landing_page.published? ? 'bg-amber-600 hover:bg-amber-700 text-white' : 'bg-emerald-600 hover:bg-emerald-700 text-white'} font-medium text-xs rounded-lg shadow-sm transition-all focus:ring-2 focus:ring-offset-2 active:scale-95 shrink-0" do %>
+        <% if @landing_page.published? %>
+          ⏸️ Unpublish to Draft
+        <% else %>
+          🚀 Publish Live
+        <% end %>
+      <% end %>
 
       <!-- Add Block Button -->
       <button type="button" 
@@ -99,7 +122,7 @@
 
         <!-- Public Page Preview Iframe -->
         <iframe data-preview-target="iframe"
-                src="<%= landing_page_path(@landing_page) %>" 
+                src="<%= landing_page_path(@landing_page, preview: true) %>" 
                 class="w-full h-[750px] rounded-b-xl bg-white border-0 transition-opacity duration-200">
         </iframe>
       </div>

@@ -1,0 +1,11 @@
+/* app/assets/tailwind/application.css */
+@import "tailwindcss";
+
+/* Full paths relative to project root */
+@source "../../../app/views/**/*.erb";
+@source "../../../app/helpers/**/*.rb";
+@source "../../../app/javascript/**/*.js";
+
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}

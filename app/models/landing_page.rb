@@ -1,15 +1,18 @@
 # app/models/landing_page.rb
 class LandingPage < ApplicationRecord
-  has_many :page_blocks, -> { order(:position) }, dependent: :destroy
+  has_many :page_blocks, -> { order(position: :asc) }, dependent: :destroy
 
-  before_validation :generate_slug, on: :create
+  enum :status, { draft: 0, published: 1 }, default: :draft
+
+  validates :title, presence: true
+  validates :slug, presence: true, uniqueness: true
+
+  # Automatically format slug on save
+  before_validation :generate_slug, if: -> { slug.blank? && title.present? }
 
   private
 
   def generate_slug
-    return if slug.present?
-
-    # Generates a slug from title, or falls back to a random token
-    self.slug = title.present? ? title.parameterize : SecureRandom.hex(4)
+    self.slug = title.parameterize
   end
 end

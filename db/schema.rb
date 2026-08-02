@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_20_102144) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_01_103814) do
   create_table "blog_posts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -20,10 +20,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_20_102144) do
 
   create_table "landing_pages", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.datetime "published_at"
     t.string "slug"
+    t.integer "status", default: 0, null: false
     t.text "title"
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_landing_pages_on_slug", unique: true
+    t.index ["status"], name: "index_landing_pages_on_status"
   end
 
   create_table "page_blocks", force: :cascade do |t|
