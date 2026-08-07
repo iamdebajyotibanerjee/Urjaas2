@@ -4,8 +4,8 @@
     <summary class="p-4 cursor-pointer list-none flex items-center justify-between">
       <div class="flex items-center gap-3">
         <!-- Drag Handle Icon -->
-        <span class="cursor-grab text-slate-400 hover:text-slate-600 transition p-1">
-          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <span class="drag-handle cursor-grab active:cursor-grabbing text-slate-400 hover:text-slate-600 transition p-1">
+          <svg class="w-4 h-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
           </svg>
         </span>
@@ -39,7 +39,6 @@
     <!-- Expandable Edit Form Drawer -->
     <div class="px-4 pb-4 pt-2 border-t border-slate-100 bg-slate-50/50 rounded-b-xl">
       <%= form_with model: [:admin, page_block.landing_page, page_block], method: :patch, class: "space-y-4" do |f| %>
-        
         <%= render "admin/page_blocks/forms/fields", page_block: page_block %>
 
         <div class="flex justify-end gap-2 pt-2 border-t border-slate-200/60">
