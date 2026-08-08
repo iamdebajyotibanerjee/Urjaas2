@@ -1,0 +1,16 @@
+<div class="space-y-3">
+  <div>
+    <label class="block text-xs font-medium text-gray-700 mb-1">Copyright Notice</label>
+    <%= text_field_tag "page_block[content_data][copyright]", data["copyright"], class: "w-full text-xs border rounded p-2" %>
+  </div>
+  <div class="grid grid-cols-2 gap-3">
+    <div>
+      <label class="block text-xs font-medium text-gray-700 mb-1">Privacy URL</label>
+      <%= text_field_tag "page_block[content_data][privacy_url]", data["privacy_url"], class: "w-full text-xs border rounded p-2" %>
+    </div>
+    <div>
+      <label class="block text-xs font-medium text-gray-700 mb-1">Terms URL</label>
+      <%= text_field_tag "page_block[content_data][terms_url]", data["terms_url"], class: "w-full text-xs border rounded p-2" %>
+    </div>
+  </div>
+</div>

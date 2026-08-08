@@ -1,0 +1,49 @@
+<%# app/views/admin/page_blocks/forms/_products.html.erb %>
+<div class="space-y-3">
+  <div class="grid grid-cols-3 gap-3">
+    <div class="col-span-2">
+      <label class="block text-xs font-medium text-gray-700 mb-1">Heading</label>
+      <%= text_field_tag "page_block[content_data][heading]", data["heading"], class: "w-full text-xs border rounded p-2 font-medium" %>
+    </div>
+    <div>
+      <label class="block text-xs font-medium text-gray-700 mb-1">Columns</label>
+      <%= select_tag "page_block[content_data][columns]", options_for_select([2, 3], data["columns"]), class: "w-full text-xs border rounded p-2" %>
+    </div>
+  </div>
+
+  <div>
+    <label class="block text-xs font-medium text-gray-700 mb-1">Subheading</label>
+    <%= text_field_tag "page_block[content_data][subheading]", data["subheading"], class: "w-full text-xs border rounded p-2" %>
+  </div>
+
+  <div class="border-t pt-3 mt-3">
+    <label class="block text-xs font-semibold text-gray-600 mb-2">Products / Pricing Cards</label>
+    <% (data["items"] || []).each_with_index do |item, idx| %>
+      <div class="bg-gray-50 p-3 rounded border mb-3 space-y-2">
+        <div class="grid grid-cols-3 gap-2">
+          <input type="text" name="page_block[content_data][items][<%= idx %>][name]" value="<%= item["name"] %>" placeholder="Plan / Product Name" class="text-xs border rounded p-1.5 font-medium col-span-2" />
+          <input type="text" name="page_block[content_data][items][<%= idx %>][badge]" value="<%= item["badge"] %>" placeholder="Badge (Optional)" class="text-xs border rounded p-1.5" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <input type="text" name="page_block[content_data][items][<%= idx %>][price]" value="<%= item["price"] %>" placeholder="Price (e.g. $29)" class="text-xs border rounded p-1.5" />
+          <input type="text" name="page_block[content_data][items][<%= idx %>][period]" value="<%= item["period"] %>" placeholder="Period (e.g. /mo)" class="text-xs border rounded p-1.5" />
+        </div>
+
+        <input type="text" name="page_block[content_data][items][<%= idx %>][description]" value="<%= item["description"] %>" placeholder="Short description" class="w-full text-xs border rounded p-1.5" />
+
+        <div class="grid grid-cols-2 gap-2">
+          <input type="text" name="page_block[content_data][items][<%= idx %>][button_text]" value="<%= item["button_text"] %>" placeholder="Button Label" class="text-xs border rounded p-1.5" />
+          <input type="text" name="page_block[content_data][items][<%= idx %>][button_url]" value="<%= item["button_url"] %>" placeholder="Button URL" class="text-xs border rounded p-1.5" />
+        </div>
+
+        <% if item["features"].is_a?(Array) %>
+          <div class="mt-2">
+            <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Features (one per line)</label>
+            <textarea name="page_block[content_data][items][<%= idx %>][features]" rows="3" class="w-full text-xs border rounded p-1.5 font-mono" placeholder="Feature 1&#10;Feature 2"><%= item["features"].join("\n") %></textarea>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
