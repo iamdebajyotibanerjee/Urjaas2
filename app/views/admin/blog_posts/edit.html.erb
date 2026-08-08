@@ -1,0 +1,26 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+  <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        <%= link_to "← Back to Dashboard", admin_blog_posts_path, class: "text-xs font-semibold text-slate-500 hover:text-indigo-600 transition" %>
+      </div>
+      <h1 class="text-2xl font-bold text-slate-900">Edit Blog Post</h1>
+    </div>
+    
+    <div class="flex items-center gap-2">
+      <% if @blog_post.published? %>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 rounded-full border border-emerald-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Published
+        </span>
+      <% else %>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold text-amber-700 bg-amber-50 rounded-full border border-amber-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Draft
+        </span>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-xl border border-slate-200/80 shadow-xs p-6">
+    <%= render "form", blog_post: @blog_post %>
+  </div>
+</div>

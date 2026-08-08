@@ -1,0 +1,18 @@
+<% data = block.parsed_content %>
+
+<footer class="w-full bg-slate-900 text-slate-400 py-8 px-6 text-xs border-t border-slate-800">
+  <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div>
+      <%= data['copyright'].presence || "© #{Time.current.year} Urjaas. All rights reserved." %>
+    </div>
+    
+    <div class="flex items-center gap-4">
+      <% if data['privacy_url'].present? %>
+        <a href="<%= data['privacy_url'] %>" class="hover:text-white transition">Privacy Policy</a>
+      <% end %>
+      <% if data['terms_url'].present? %>
+        <a href="<%= data['terms_url'] %>" class="hover:text-white transition">Terms of Service</a>
+      <% end %>
+    </div>
+  </div>
+</footer>

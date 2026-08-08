@@ -1,70 +1,14 @@
+# app/controllers/blog_posts_controller.rb
 class BlogPostsController < ApplicationController
-  before_action :set_blog_post, only: %i[ show edit update destroy ]
-
-  # GET /blog_posts or /blog_posts.json
+  # GET /blog_posts
   def index
-    @blog_posts = BlogPost.all
+    @blog_posts = BlogPost.published.order(created_at: :desc)
   end
 
-  # GET /blog_posts/1 or /blog_posts/1.json
+  # GET /blog_posts/1
   def show
+    @blog_post = BlogPost.published.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to blog_posts_path, alert: "Blog post not found or unpublished."
   end
-
-  # GET /blog_posts/new
-  def new
-    @blog_post = BlogPost.new
-  end
-
-  # GET /blog_posts/1/edit
-  def edit
-  end
-
-  # POST /blog_posts or /blog_posts.json
-  def create
-    @blog_post = BlogPost.new(blog_post_params)
-
-    respond_to do |format|
-      if @blog_post.save
-        format.html { redirect_to @blog_post, notice: "Blog post was successfully created." }
-        format.json { render :show, status: :created, location: @blog_post }
-      else
-        format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @blog_post.errors, status: :unprocessable_content }
-      end
-    end
-  end
-
-  # PATCH/PUT /blog_posts/1 or /blog_posts/1.json
-  def update
-    respond_to do |format|
-      if @blog_post.update(blog_post_params)
-        format.html { redirect_to @blog_post, notice: "Blog post was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @blog_post }
-      else
-        format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @blog_post.errors, status: :unprocessable_content }
-      end
-    end
-  end
-
-  # DELETE /blog_posts/1 or /blog_posts/1.json
-  def destroy
-    @blog_post.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to blog_posts_path, notice: "Blog post was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
-    end
-  end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_blog_post
-      @blog_post = BlogPost.find(params.expect(:id))
-    end
-
-    # Only allow a list of trusted parameters through.
-    def blog_post_params
-      params.expect(blog_post: [ :title, :body ])
-    end
 end

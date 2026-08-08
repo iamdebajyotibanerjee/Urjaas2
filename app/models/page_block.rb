@@ -5,6 +5,21 @@ class PageBlock < ApplicationRecord
   validates :block_type, presence: true
 
   TEMPLATES = {
+    "header" => {
+      name: "Header Navigation",
+      description: "Sticky or top navigation bar with logo, editable links, and primary CTA.",
+      default_data: {
+        "brand_name" => "Urjaas",
+        "nav_links" => [
+          { "label" => "Features", "url" => "#features" },
+          { "label" => "Pricing", "url" => "#pricing" },
+          { "label" => "Testimonials", "url" => "#testimonials" },
+          { "label" => "FAQ", "url" => "#faq" }
+        ],
+        "cta_label" => "Get Started",
+        "cta_url" => "#signup"
+      }
+    },
     "hero" => {
       name: "Hero Section",
       description: "High-impact headline, subtitle, and primary call-to-action button.",
@@ -149,10 +164,32 @@ class PageBlock < ApplicationRecord
           { "q" => "Can I cancel anytime?", "a" => "Yes, there are no long-term contracts or hidden fees." }
         ]
       }
+    },
+    "footer" => {
+      name: "Footer Section",
+      description: "Bottom page footer with copyright text, privacy link, and terms link.",
+      default_data: {
+        "copyright" => "© #{Time.current.year} Urjaas. All rights reserved.",
+        "privacy_url" => "/privacy",
+        "terms_url" => "/terms"
+      }
     }
   }.freeze
 
   before_validation :apply_template_defaults, on: :create
+
+  # Helper method to safely access content whether stored as a Hash (JSON column) or String (JSON text column)
+  def parsed_content
+    return {} if content.blank?
+    content.is_a?(String) ? JSON.parse(content) : content
+  rescue JSON::ParserError
+    { "text" => content }
+  end
+
+  # Setter to easily absorb parameters submitted from structured forms
+  def content_data=(data)
+    self.content = data
+  end
 
   private
 

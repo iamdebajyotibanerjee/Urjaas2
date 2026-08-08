@@ -1,0 +1,26 @@
+<% data = block.parsed_content %>
+
+<header class="w-full bg-white border-b border-slate-200/80 py-4 px-6 flex items-center justify-between">
+  <!-- Brand / Logo -->
+  <div class="font-extrabold text-lg tracking-tight text-slate-900">
+    <%= data['brand_name'].presence || 'Urjaas' %>
+  </div>
+
+  <!-- Navigation Links -->
+  <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-slate-600">
+    <% (data['nav_links'] || []).each do |link| %>
+      <% if link['label'].present? %>
+        <a href="<%= link['url'].presence || '#' %>" class="hover:text-indigo-600 transition">
+          <%= link['label'] %>
+        </a>
+      <% end %>
+    <% end %>
+  </nav>
+
+  <!-- CTA Button -->
+  <% if data['cta_label'].present? %>
+    <a href="<%= data['cta_url'].presence || '#' %>" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-lg transition shadow-xs">
+      <%= data['cta_label'] %>
+    </a>
+  <% end %>
+</header>

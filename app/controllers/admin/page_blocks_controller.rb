@@ -57,7 +57,25 @@ module Admin
     end
 
     def page_block_params
-      params.require(:page_block).permit(:block_type, :position, content: {})
+      permitted = params.require(:page_block).permit(:block_type, :position)
+
+      if params[:page_block][:content_json].present?
+        begin
+          permitted[:content] = JSON.parse(params[:page_block][:content_json])
+        rescue JSON::ParserError
+          permitted[:content] = {}
+        end
+      elsif params[:page_block][:content_data].present?
+        permitted[:content] = params[:page_block][:content_data].permit!.to_h
+      elsif params[:page_block][:content].present?
+        if params[:page_block][:content].is_a?(ActionController::Parameters) || params[:page_block][:content].is_a?(Hash)
+          permitted[:content] = params[:page_block][:content].permit!.to_h
+        else
+          permitted[:content] = params[:page_block][:content]
+        end
+      end
+
+      permitted
     end
   end
 end

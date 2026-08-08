@@ -1,10 +1,19 @@
-<p style="color: green"><%= notice %></p>
+<article class="max-w-3xl mx-auto px-4 sm:px-6 py-12 space-y-8">
+  <div class="space-y-4 border-b border-slate-200 pb-8">
+    <%= link_to "← Back to Articles", blog_posts_path, class: "text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition inline-block" %>
+    
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+      <%= @blog_post.title %>
+    </h1>
+    
+    <div class="flex items-center gap-3 text-xs text-slate-500">
+      <span>Published <%= @blog_post.created_at.strftime("%B %d, %Y") %></span>
+      <span>•</span>
+      <span><%= (reading_time = (@blog_post.body.to_s.split.size / 200.0).ceil) %> min read</span>
+    </div>
+  </div>
 
-<%= render @blog_post %>
-
-<div>
-  <%= link_to "Edit this blog post", edit_blog_post_path(@blog_post) %> |
-  <%= link_to "Back to blog posts", blog_posts_path %>
-
-  <%= button_to "Destroy this blog post", @blog_post, method: :delete %>
-</div>
+  <div class="text-slate-800 text-sm sm:text-base leading-relaxed whitespace-pre-wrap font-sans">
+    <%= @blog_post.body %>
+  </div>
+</article>

@@ -107,7 +107,7 @@
           </div>
 
           <div class="px-3 py-0.5 bg-slate-800 rounded-md text-[11px] text-slate-400 font-mono truncate max-w-xs">
-            <%= landing_page_url(@landing_page) %>
+            <%= public_landing_page_url(slug: @landing_page.slug) %>
           </div>
 
           <button type="button" 
@@ -122,7 +122,7 @@
 
         <!-- Public Page Preview Iframe -->
         <iframe data-preview-target="iframe"
-                src="<%= landing_page_path(@landing_page, preview: true) %>" 
+                src="<%= public_landing_page_path(slug: @landing_page.slug, preview: true) %>" 
                 class="w-full h-[750px] rounded-b-xl bg-white border-0 transition-opacity duration-200">
         </iframe>
       </div>
