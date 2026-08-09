@@ -1,21 +1,31 @@
 <%# app/views/landing_pages/blocks/_features.html.erb %>
-<section class="py-16 lg:py-24 bg-white border-b border-slate-100">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6">
-    <div class="text-center max-w-3xl mx-auto mb-16">
-      <h2 class="text-3xl font-bold text-slate-900 tracking-tight mb-4">
-        <%= block.content&.dig("heading") || "Why Choose Us" %>
-      </h2>
-      <p class="text-base sm:text-lg text-slate-600">
-        <%= block.content&.dig("subheading") || "Everything you need to build and scale with confidence." %>
-      </p>
-    </div>
+<% data = block.parsed_content %>
+<% raw_items = data["items"] %>
+<% items_list = raw_items.is_a?(Hash) ? raw_items.values : (raw_items || []) %>
+
+<section class="py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <% if data["heading"].present? %>
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <h2 class="text-3xl font-extrabold text-slate-900 sm:text-4xl">
+          <%= data["heading"] %>
+        </h2>
+        <% if data["subheading"].present? %>
+          <p class="mt-4 text-lg text-slate-600">
+            <%= data["subheading"] %>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <% (block.content&.dig("items") || []).each do |item| %>
-        <div class="bg-slate-50/80 border border-slate-200/80 rounded-2xl p-6 hover:shadow-md transition-all">
-          <div class="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      <% items_list.each do |item| %>
+        <% item = item.is_a?(Hash) ? item : {} %>
+
+        <div class="p-6 bg-slate-50 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition">
+          <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600 mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
           </div>
           <h3 class="text-lg font-bold text-slate-900 mb-2"><%= item["title"] %></h3>

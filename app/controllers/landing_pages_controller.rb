@@ -23,6 +23,10 @@ class LandingPagesController < ApplicationController
     @page_blocks = @landing_page.page_blocks.order(position: :asc)
   end
 
+  def home
+    @landing_page = LandingPage.find_by(slug: "home")
+  end
+
   private
 
   def allow_draft_preview?

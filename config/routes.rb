@@ -28,5 +28,5 @@ Rails.application.routes.draw do
   end
 
   get "up" => "rails/health#show", as: :rails_health_check
-  root "landing_pages#index"
+  root "landing_pages#home"
 end
