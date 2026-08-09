@@ -1,10 +1,14 @@
-# app/controllers/landing_pages_controller.rb
 class LandingPagesController < ApplicationController
+  # Require authentication for the index (dashboard) action
+  before_action :authenticate_user!, only: [ :index ]
+
   # Render without admin sidebar / navbar layout
   layout "landing_page"
 
   def index
-    @landing_pages = LandingPage.published
+    @landing_pages = LandingPage.all.order(created_at: :desc)
+    @landing_pages_count = @landing_pages.count
+    @posts_count = defined?(BlogPost) ? BlogPost.count : 0
   end
 
   def show

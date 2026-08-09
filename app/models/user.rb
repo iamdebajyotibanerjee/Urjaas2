@@ -1,6 +1,15 @@
+# app/models/user.rb
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :rememberable, :validatable
+
+  ADMIN_EMAIL = "ks.brandbuilder@gmail.com"
+
+  def active_for_authentication?
+    super && email.downcase == ADMIN_EMAIL.downcase
+  end
+
+  # Uses Devise's built-in translation key
+  def inactive_message
+    :invalid
+  end
 end

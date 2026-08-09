@@ -1,11 +1,17 @@
-# config/routes.rb
 Rails.application.routes.draw do
-  devise_for :users
+  # Disable registration routes (sign up, account creation)
+  devise_for :users, skip: [ :registrations ]
+
+  # Set landing pages index as the root destination after sign-in
+  authenticated :user do
+    root to: "landing_pages#index", as: :authenticated_root
+  end
+
   # Public Blog Routes (Read-only)
   resources :blog_posts, only: [ :index, :show ]
 
-  # Public Landing Page Routes
-  get "landing_pages", to: "landing_pages#index"
+  # Public Landing Page Routes / Dashboard Route
+  get "landing_pages", to: "landing_pages#index", as: :landing_pages
   get "landing_pages/:slug", to: "landing_pages#show", as: :public_landing_page
 
   # Admin Namespace

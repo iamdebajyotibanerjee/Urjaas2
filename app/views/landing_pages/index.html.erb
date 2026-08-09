@@ -1,2 +1,115 @@
-<h1>Home Page</h1>
-<p>Welcome to the home page!</p>
+<%# app/views/landing_pages/index.html.erb %>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+  <!-- Navigation / Header Bar with Sign Out -->
+  <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+      <p class="text-sm text-gray-500 mt-0.5">Select a module or manage existing landing pages below.</p>
+    </div>
+
+    <!-- Admin Account Badge & Sign Out -->
+    <div class="flex items-center space-x-4 border-t sm:border-t-0 border-gray-100 pt-3 sm:pt-0 w-full sm:w-auto justify-between sm:justify-end">
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">
+          <%= current_user&.email&.first&.upcase || "A" %>
+        </div>
+        <span class="text-xs font-medium text-gray-700">
+          <%= current_user&.email || "admin@example.com" %>
+        </span>
+      </div>
+
+      <%= button_to destroy_user_session_path, 
+              method: :delete, 
+              class: "inline-flex items-center space-x-1.5 text-xs font-semibold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 border border-red-200/60 px-3 py-1.5 rounded-lg transition cursor-pointer" do %>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              <span>Sign Out</span>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Application Modules -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <!-- Module 1: Landing Pages -->
+    <div class="bg-white rounded-xl border-2 border-indigo-500 shadow-sm p-5 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            </svg>
+          </div>
+          <span class="text-xs font-semibold px-2 py-1 bg-indigo-50 text-indigo-700 rounded-full"><%= @landing_pages_count %> Pages</span>
+        </div>
+        <h2 class="text-lg font-bold text-gray-900">Landing Pages</h2>
+        <p class="text-xs text-gray-500 mt-1">Create and manage landing page blocks.</p>
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
+        <%= link_to "+ New Page", new_admin_landing_page_path, class: "text-xs font-semibold bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded transition" %>
+      </div>
+    </div>
+
+    <!-- Module 2: Blog Posts -->
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+            </svg>
+          </div>
+          <span class="text-xs font-semibold px-2 py-1 bg-emerald-50 text-emerald-700 rounded-full"><%= @posts_count %> Posts</span>
+        </div>
+        <h2 class="text-lg font-bold text-gray-900">Blog Posts</h2>
+        <p class="text-xs text-gray-500 mt-1">Manage articles and post content.</p>
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
+        <%= link_to "Manage Blog &rarr;".html_safe, admin_blog_posts_path, class: "text-xs font-semibold text-emerald-600 hover:text-emerald-800 transition" %>
+      </div>
+    </div>
+
+    <!-- Placeholder for Future Modules -->
+    <div class="border-2 border-dashed border-gray-200 rounded-xl p-5 flex flex-col items-center justify-center text-center text-gray-400 min-h-[160px]">
+      <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+      </svg>
+      <span class="text-xs font-medium">Future Module</span>
+    </div>
+
+  </div>
+
+  <!-- Landing Pages List -->
+  <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+    <div class="p-4 border-b border-gray-100 flex items-center justify-between">
+      <h3 class="text-base font-bold text-gray-900">All Landing Pages</h3>
+      <%= link_to "+ Create Page", new_admin_landing_page_path, class: "bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3 py-1.5 rounded font-medium transition" %>
+    </div>
+
+    <% if @landing_pages.any? %>
+      <div class="divide-y divide-gray-100">
+        <% @landing_pages.each do |page| %>
+          <div class="p-4 flex items-center justify-between hover:bg-gray-50 transition">
+            <div>
+              <h4 class="text-sm font-semibold text-gray-900"><%= page.title %></h4>
+            </div>
+            <div class="flex items-center space-x-3 text-xs">
+              <%= link_to "Edit Blocks", edit_admin_landing_page_path(page), class: "text-indigo-600 font-medium hover:underline" %>
+              <%= link_to "Preview", public_landing_page_path(slug: page.slug || page.id, preview: true), target: "_blank", class: "text-gray-600 hover:underline" %>
+              <%= link_to "Delete", admin_landing_page_path(page), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-red-600 hover:underline" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="p-8 text-center text-gray-400 text-sm">
+        No landing pages created yet. Click "+ Create Page" to add one.
+      </div>
+    <% end %>
+  </div>
+
+</div>
