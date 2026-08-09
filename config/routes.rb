@@ -1,5 +1,6 @@
 # config/routes.rb
 Rails.application.routes.draw do
+  devise_for :users
   # Public Blog Routes (Read-only)
   resources :blog_posts, only: [ :index, :show ]
 
