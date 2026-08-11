@@ -20,7 +20,7 @@
               </time>
               <span class="text-slate-300">•</span>
               <span class="text-slate-500 font-medium">
-                <%= (post.body.to_s.split.size / 200.0).ceil %> min read
+                <%= (post.content.to_s.split.size / 200.0).ceil %> min read
               </span>
             </div>
 
@@ -31,7 +31,7 @@
 
             <!-- Body Excerpt -->
             <p class="text-sm text-slate-600 line-clamp-2 leading-relaxed">
-              <%= truncate(post.body.to_s, length: 220) %>
+              <%= truncate(post.content.to_plain_text, length: 220) %>
             </p>
           </div>
 

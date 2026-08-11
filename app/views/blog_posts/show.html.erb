@@ -9,11 +9,11 @@
     <div class="flex items-center gap-3 text-xs text-slate-500">
       <span>Published <%= @blog_post.created_at.strftime("%B %d, %Y") %></span>
       <span>•</span>
-      <span><%= (reading_time = (@blog_post.body.to_s.split.size / 200.0).ceil) %> min read</span>
+      <span><%= (reading_time = (@blog_post.content.to_s.split.size / 200.0).ceil) %> min read</span>
     </div>
   </div>
 
   <div class="text-slate-800 text-sm sm:text-base leading-relaxed whitespace-pre-wrap font-sans">
-    <%= @blog_post.body %>
+    <%= @blog_post.content %>
   </div>
 </article>

@@ -47,7 +47,7 @@
                     <%= link_to post.title, edit_admin_blog_post_path(post) %>
                   </div>
                   <p class="text-slate-500 text-[11px] truncate mt-0.5 max-w-sm">
-                    <%= truncate(post.body.to_s, length: 90) %>
+                    <%= truncate(post.content.to_plain_text, length: 90) %>
                   </p>
                 </td>
 

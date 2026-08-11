@@ -16,7 +16,7 @@
 
     <%# Include stylesheet tags for both potential output targets %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" rescue stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-
+    <%= stylesheet_link_tag "actiontext", "data-turbo-track": "reload" rescue stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%# Importmap JavaScript %>
     <%= javascript_importmap_tags %>
   </head>
