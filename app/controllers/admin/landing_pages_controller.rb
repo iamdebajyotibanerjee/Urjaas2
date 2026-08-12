@@ -11,6 +11,10 @@ module Admin
       # Live side-by-side builder view
     end
 
+    def new
+      @landing_page = LandingPage.new
+    end
+
     def create
       @landing_page = LandingPage.new(landing_page_params)
 
