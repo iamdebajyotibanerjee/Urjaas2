@@ -1,6 +1,8 @@
-# app/models/page_block.rb
 class PageBlock < ApplicationRecord
   belongs_to :landing_page
+
+  # Attach ActionText for rich text content
+  has_rich_text :rich_content
 
   validates :block_type, presence: true
 
@@ -28,6 +30,13 @@ class PageBlock < ApplicationRecord
         "subtitle" => "Turn your ideas into high-converting landing pages in minutes.",
         "cta_text" => "Get Started Free",
         "cta_url" => "#"
+      }
+    },
+    "text" => {
+      name: "Text Block",
+      description: "Rich text editor for longform content, headings, paragraphs, lists, and formatting.",
+      default_data: {
+        "title" => "Our Story & Mission"
       }
     },
     "features" => {

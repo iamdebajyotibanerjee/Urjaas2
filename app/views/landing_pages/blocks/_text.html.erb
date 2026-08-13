@@ -1,0 +1,20 @@
+<% 
+  content     = block.parsed_content || {}
+  alignment   = content["alignment"] || "text-left"
+  title_size  = content["title_size"] || "text-3xl"
+  title_color = content["title_color"] || "#0f172a"
+  body_size   = content["body_size"] || "text-base"
+  body_color  = content["body_color"] || "#334155"
+%>
+
+<section class="py-12 px-4 max-w-4xl mx-auto <%= alignment %>">
+  <% if content["title"].present? %>
+    <h2 class="<%= title_size %> font-bold mb-6" style="color: <%= title_color %>;">
+      <%= content["title"] %>
+    </h2>
+  <% end %>
+
+  <div class="prose max-w-none <%= body_size %>" style="color: <%= body_color %>;">
+    <%= block.rich_content %>
+  </div>
+</section>

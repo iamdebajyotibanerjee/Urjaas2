@@ -57,21 +57,27 @@ module Admin
     end
 
     def page_block_params
-      permitted = params.require(:page_block).permit(:block_type, :position)
+      permitted = params.require(:page_block).permit(:block_type, :position, :rich_content)
 
-      if params[:page_block][:content_json].present?
-        begin
-          permitted[:content] = JSON.parse(params[:page_block][:content_json])
-        rescue JSON::ParserError
-          permitted[:content] = {}
-        end
-      elsif params[:page_block][:content_data].present?
-        permitted[:content] = params[:page_block][:content_data].permit!.to_h
-      elsif params[:page_block][:content].present?
-        if params[:page_block][:content].is_a?(ActionController::Parameters) || params[:page_block][:content].is_a?(Hash)
-          permitted[:content] = params[:page_block][:content].permit!.to_h
-        else
-          permitted[:content] = params[:page_block][:content]
+      # Extract and convert content parameters securely
+      raw_content = params[:page_block][:content_json] ||
+                    params[:page_block][:content_data] ||
+                    params[:page_block][:content]
+
+      if raw_content.present?
+        if raw_content.is_a?(String)
+          begin
+            permitted[:content] = JSON.parse(raw_content)
+          rescue JSON::ParserError
+            permitted[:content] = {}
+          end
+        elsif raw_content.respond_to?(:permit)
+          # Strips out rich_content if it accidentally leaks into the content hash
+          content_hash = raw_content.permit!.to_h
+          content_hash.delete("rich_content")
+          permitted[:content] = content_hash
+        elsif raw_content.is_a?(Hash)
+          permitted[:content] = raw_content.except(:rich_content, "rich_content")
         end
       end
 

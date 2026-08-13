@@ -1,0 +1,83 @@
+<div class="space-y-6">
+  <%# Block Heading & Title Settings %>
+  <div class="border-b border-slate-200 pb-4 space-y-4">
+    <h4 class="font-semibold text-slate-800 text-sm">Heading Settings</h4>
+    
+    <div>
+      <%= label_tag "page_block[content][title]", "Heading Text", class: "block text-sm font-medium text-slate-700 mb-1" %>
+      <%= text_field_tag "page_block[content][title]", 
+            f.object.parsed_content["title"] || "Our Story & Mission", 
+            class: "w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" %>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <%= label_tag "page_block[content][title_size]", "Heading Size", class: "block text-xs font-medium text-slate-600 mb-1" %>
+        <%= select_tag "page_block[content][title_size]", 
+              options_for_select([
+                ["Small (text-2xl)", "text-2xl"],
+                ["Medium (text-3xl)", "text-3xl"],
+                ["Large (text-4xl)", "text-4xl"],
+                ["Extra Large (text-5xl)", "text-5xl"]
+              ], f.object.parsed_content["title_size"] || "text-3xl"),
+              class: "w-full rounded-md border-slate-300 shadow-sm text-sm" %>
+      </div>
+
+      <div>
+        <%= label_tag "page_block[content][title_color]", "Heading Color", class: "block text-xs font-medium text-slate-600 mb-1" %>
+        <%= color_field_tag "page_block[content][title_color]", 
+              f.object.parsed_content["title_color"] || "#0f172a", 
+              class: "h-9 w-full rounded-md border-slate-300 cursor-pointer p-1" %>
+      </div>
+    </div>
+  </div>
+
+  <%# Layout & Alignment Settings %>
+  <div class="border-b border-slate-200 pb-4">
+    <%= label_tag "page_block[content][alignment]", "Text Alignment", class: "block text-xs font-medium text-slate-600 mb-1" %>
+    <%= select_tag "page_block[content][alignment]", 
+          options_for_select([
+            ["Left Aligned", "text-left"],
+            ["Center Aligned", "text-center"],
+            ["Right Aligned", "text-right"]
+          ], f.object.parsed_content["alignment"] || "text-left"),
+          class: "w-full rounded-md border-slate-300 shadow-sm text-sm" %>
+  </div>
+
+  <%# Body Text Settings %>
+  <div class="space-y-4">
+    <h4 class="font-semibold text-slate-800 text-sm">Body Content Settings</h4>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <%= label_tag "page_block[content][body_size]", "Body Font Size", class: "block text-xs font-medium text-slate-600 mb-1" %>
+        <%= select_tag "page_block[content][body_size]", 
+              options_for_select([
+                ["Small (text-sm)", "text-sm"],
+                ["Base (text-base)", "text-base"],
+                ["Large (text-lg)", "text-lg"],
+                ["Extra Large (text-xl)", "text-xl"]
+              ], f.object.parsed_content["body_size"] || "text-base"),
+              class: "w-full rounded-md border-slate-300 shadow-sm text-sm" %>
+      </div>
+
+      <div>
+        <%= label_tag "page_block[content][body_color]", "Body Text Color", class: "block text-xs font-medium text-slate-600 mb-1" %>
+        <%= color_field_tag "page_block[content][body_color]", 
+              f.object.parsed_content["body_color"] || "#334155", 
+              class: "h-9 w-full rounded-md border-slate-300 cursor-pointer p-1" %>
+      </div>
+    </div>
+
+    <div>
+      <%= f.label :rich_content, "Body Content", class: "block text-sm font-medium text-slate-700 mb-1" %>
+      <%= f.rich_text_area :rich_content, 
+            placeholder: "Write your formatted content, insert images, links, or lists here...",
+            class: "min-h-[250px] rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-white" %>
+    </div>
+  </div>
+
+  <div class="flex justify-end pt-2">
+    <%= f.submit "Save Block", class: "px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 cursor-pointer" %>
+  </div>
+</div>
