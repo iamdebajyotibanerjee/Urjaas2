@@ -1,0 +1,26 @@
+name: Brakeman Security Scan
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["main", "master"]
+
+jobs:
+  brakeman:
+    name: Run Brakeman
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ".ruby-version" # Automatically reads your .ruby-version file
+          bundler-cache: true # Caches gems for faster workflow runs
+
+      - name: Run Brakeman Scan
+        run: |
+          bundle exec brakeman -z --no-pager
