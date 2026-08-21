@@ -2,6 +2,6 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-import "trix"
-import "@37signals/lexxy"
+// import "trix"
+import "lexxy"
 import "@rails/actiontext"

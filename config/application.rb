@@ -24,6 +24,5 @@ module Urjaas2
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
     # config/application.rb
-    config.lexxy.override_action_text_defaults = false
   end
 end
