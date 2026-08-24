@@ -54,6 +54,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Cloudflare R2 storage support for Active Storage
+  gem "aws-sdk-s3", require: false
 end
 
 group :development do
