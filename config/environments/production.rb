@@ -87,4 +87,7 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # Routes file requests through your Rails app rather than generating direct bucket URLs
+  config.active_storage.resolve_model_to_route = :rails_storage_proxy
 end
