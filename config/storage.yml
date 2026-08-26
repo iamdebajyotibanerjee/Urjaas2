@@ -33,5 +33,5 @@ amazon_r2:
   secret_access_key: <%= ENV['R2_SECRET_ACCESS_KEY'] %>
   region: auto
   bucket: <%= ENV['R2_BUCKET'] %>
-  endpoint: https://pub-ffd03fa055544f6b884765f4d400ce20.r2.dev
+  endpoint: https://<%= ENV['R2_ACCOUNT_ID'] %>.cloudflarestorage.com
   force_path_style: true
