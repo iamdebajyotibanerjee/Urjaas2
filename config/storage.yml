@@ -34,4 +34,6 @@ amazon_r2:
   region: auto
   bucket: <%= ENV['R2_BUCKET'] %>
   endpoint: https://<%= ENV['R2_ACCOUNT_ID'] %>.r2.cloudflarestorage.com
+  public_url: https://pub-ffd03fa055544f6b884765f4d400ce20.r2.dev
+  public: true
   force_path_style: true
