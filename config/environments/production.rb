@@ -88,6 +88,8 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  # Routes file requests through your Rails app rather than generating direct bucket URLs
-  config.active_storage.resolve_model_to_route = :rails_storage_proxy
+  # Remove or comment out: config.active_storage.resolve_model_to_route = :rails_storage_proxy
+
+  # Set asset_host to your public R2 subdomain
+  config.active_storage.asset_host = "https://pub-ffd03fa055544f6b884765f4d400ce20.r2.dev"
 end
