@@ -68,3 +68,6 @@ group :test do
 end
 
 gem "devise", "~> 5.0"
+
+# Cloudflare R2 storage support for Active Storage
+gem "aws-sdk-s3", require: false
