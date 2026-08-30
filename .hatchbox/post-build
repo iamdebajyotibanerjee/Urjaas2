@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-set -e
-
-cd $RELEASE_DIR
-
-if [ "$CRON" = "true" ]; then
-  bundle exec bin/rails db:seed
-fi
