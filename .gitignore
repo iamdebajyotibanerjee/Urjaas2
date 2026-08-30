@@ -33,6 +33,7 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
-
+# Others
 /app/assets/builds/*
 !/app/assets/builds/.keep
+/db/seeds.rb
