@@ -90,4 +90,7 @@ Rails.application.configure do
 
   # Serve Cloudfront assets directly from the Rails app instead of redirecting to the S3 bucket.
   config.active_storage.resolve_model_to_route = :rails_storage_proxy
+
+  # Ensure Active Storage variant processor is set
+  config.active_storage.variant_processor = :vips
 end
