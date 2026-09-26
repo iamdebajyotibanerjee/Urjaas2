@@ -1,6 +1,6 @@
 # app/controllers/admin/page_blocks_controller.rb
 module Admin
-  class PageBlocksController < ApplicationController
+  class PageBlocksController < BaseController
     before_action :set_landing_page
     before_action :set_page_block, only: [ :update, :destroy ]
 

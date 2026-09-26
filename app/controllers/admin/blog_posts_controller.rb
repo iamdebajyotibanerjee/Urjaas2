@@ -1,6 +1,6 @@
 # app/controllers/admin/blog_posts_controller.rb
 module Admin
-  class BlogPostsController < ApplicationController
+  class BlogPostsController < BaseController
     before_action :set_blog_post, only: [ :show, :edit, :update, :destroy, :toggle_publish ]
 
     def index
