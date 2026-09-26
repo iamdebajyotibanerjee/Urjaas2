@@ -1,6 +1,7 @@
 <%# app/views/landing_pages/blocks/_products.html.erb %>
 <% 
-  items = block.content&.dig("items") || []
+  raw_items = block.content&.dig("items") || []
+  items = raw_items.is_a?(Hash) ? raw_items.sort_by { |index, _item| index.to_i }.map(&:last) : raw_items
   columns_count = block.content&.dig("columns") || items.count
   grid_cols_class = columns_count.to_i == 2 ? "md:grid-cols-2 max-w-4xl" : "md:grid-cols-3 max-w-6xl"
 %>
@@ -30,6 +31,9 @@
           <% end %>
 
           <div>
+            <% if (image = block.image_blob_for(product)) %>
+              <%= image_tag image, class: "mb-5 h-44 w-full rounded-xl object-cover", alt: product["name"] %>
+            <% end %>
             <h3 class="text-xl font-bold text-slate-900 mb-2"><%= product["name"] %></h3>
             <p class="text-xs text-slate-500 mb-6 min-h-[32px]"><%= product["description"] %></p>
 

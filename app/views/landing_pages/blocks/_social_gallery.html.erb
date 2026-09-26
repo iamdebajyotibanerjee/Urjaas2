@@ -1,4 +1,7 @@
 <%# app/views/landing_pages/blocks/_social_gallery.html.erb %>
+<% raw_items = block.content&.dig("items") || [] %>
+<% items = raw_items.is_a?(Hash) ? raw_items.sort_by { |index, _item| index.to_i }.map(&:last) : raw_items %>
+
 <section class="py-16 lg:py-24 bg-slate-900 text-white">
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <div class="text-center max-w-2xl mx-auto mb-16">
@@ -12,7 +15,7 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <% (block.content&.dig("items") || []).each do |post| %>
+      <% items.each do |post| %>
         <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 flex flex-col justify-between hover:border-slate-600 transition shadow-lg">
           <div>
             <!-- User Header -->
@@ -42,6 +45,10 @@
             <p class="text-xs text-slate-300 leading-relaxed mb-4">
               <%= post["comment"] %>
             </p>
+
+            <% if (image = block.image_blob_for(post)) %>
+              <%= image_tag image, alt: "Image shared by #{post["name"]}", class: "mb-4 max-h-64 w-full rounded-lg object-cover" %>
+            <% end %>
           </div>
 
           <!-- Timestamp -->

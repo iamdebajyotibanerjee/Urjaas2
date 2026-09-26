@@ -1,5 +1,6 @@
 class PageBlock < ApplicationRecord
   belongs_to :landing_page
+  has_many_attached :images
 
   # Attach ActionText for rich text content
   has_rich_text :rich_content
@@ -198,6 +199,16 @@ class PageBlock < ApplicationRecord
   # Setter to easily absorb parameters submitted from structured forms
   def content_data=(data)
     self.content = data
+  end
+
+  def image_blob_for(item_or_signed_id)
+    signed_id = item_or_signed_id.is_a?(Hash) ? item_or_signed_id["image_signed_id"] : item_or_signed_id
+    return if signed_id.blank?
+
+    blob = ActiveStorage::Blob.find_signed(signed_id)
+    images.blobs.find_by(id: blob.id) if blob
+  rescue ActiveSupport::MessageVerifier::InvalidSignature, ArgumentError
+    nil
   end
 
   private

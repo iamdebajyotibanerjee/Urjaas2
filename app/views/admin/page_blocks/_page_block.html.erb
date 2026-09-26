@@ -2,6 +2,12 @@
 <% data = page_block.parsed_content %>
 
 <div class="border rounded-lg p-4 mb-4 bg-white shadow-sm space-y-4 page-block-item" id="<%= dom_id(page_block) %>" data-block-id="<%= page_block.id %>">
+  <% if page_block.errors.any? %>
+    <div class="rounded border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+      <%= page_block.errors.full_messages.to_sentence %>
+    </div>
+  <% end %>
+
   <%= form_with model: [:admin, page_block.landing_page, page_block], local: false do |f| %>
     <div class="flex justify-between items-center border-b pb-2 mb-3">
       <div class="flex items-center space-x-2">
