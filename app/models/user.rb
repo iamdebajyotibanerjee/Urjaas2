@@ -1,6 +1,6 @@
 # app/models/user.rb
 class User < ApplicationRecord
-  devise :database_authenticatable, :rememberable, :validatable
+  devise :database_authenticatable, :timeoutable, :validatable
 
   ADMIN_EMAIL = "ks.brandbuilder@gmail.com"
 

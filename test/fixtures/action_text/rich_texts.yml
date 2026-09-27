@@ -1,4 +1,9 @@
-# one:
-#   record: name_of_fixture (ClassOfFixture)
-#   name: content
-#   body: <p>In a <i>million</i> stars!</p>
+published_blog_post_content:
+  record: one (BlogPost)
+  name: content
+  body: <div>Published test post content.</div>
+
+draft_blog_post_content:
+  record: two (BlogPost)
+  name: content
+  body: <div>Draft test post content.</div>
