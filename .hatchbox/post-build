@@ -1,3 +1,15 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-RAILS_ENV=production bin/rails db:prepare
+export RAILS_ENV=production
+
+bin/rails db:prepare
+
+cache_table_exists=$(bin/rails runner 'print ActiveRecord::Base.connection.data_source_exists?("solid_cache_entries")')
+if [[ "$cache_table_exists" == "false" ]]; then
+	# This schema only defines the disposable Solid Cache table.
+	DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bin/rails db:schema:load:cache
+elif [[ "$cache_table_exists" != "true" ]]; then
+	echo "Unable to determine whether the Solid Cache table exists." >&2
+	exit 1
+fi
