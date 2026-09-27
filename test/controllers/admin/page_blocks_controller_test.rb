@@ -7,16 +7,28 @@ module Admin
     self.fixture_table_names = []
     include Devise::Test::IntegrationHelpers
 
-    test "requires authentication for admin actions" do
+    test "requires authentication for admin pages and block actions" do
       landing_page = LandingPage.create!(title: "Auth Test #{SecureRandom.hex(4)}")
       block = landing_page.page_blocks.create!(block_type: "hero")
 
       get admin_landing_pages_path
       assert_redirected_to new_user_session_path
 
+      get admin_blog_posts_path
+      assert_redirected_to new_user_session_path
+
       delete admin_landing_page_page_block_path(landing_page, block)
       assert_redirected_to new_user_session_path
       assert PageBlock.exists?(block.id)
+    end
+
+    test "does not allow non-admin accounts to access admin pages" do
+      user = User.create!(email: "editor@example.test", password: "secure-password-123")
+      sign_in user
+
+      get admin_landing_pages_path
+
+      assert_redirected_to new_user_session_path
     end
 
     test "uploads hero and item images to their page block" do
