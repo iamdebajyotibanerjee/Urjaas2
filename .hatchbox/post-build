@@ -3,6 +3,12 @@ set -euo pipefail
 
 export RAILS_ENV=production
 
+# Run shared database preparation on the web role only, not every app server.
+if [[ "${WEB:-false}" != "true" ]]; then
+	echo "Skipping database preparation on a non-web Hatchbox server."
+	exit 0
+fi
+
 bin/rails db:prepare
 
 cache_table_exists=$(bin/rails runner 'print ActiveRecord::Base.connection.data_source_exists?("solid_cache_entries")')
@@ -11,5 +17,14 @@ if [[ "$cache_table_exists" == "false" ]]; then
 	DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bin/rails db:schema:load:cache
 elif [[ "$cache_table_exists" != "true" ]]; then
 	echo "Unable to determine whether the Solid Cache table exists." >&2
+	exit 1
+fi
+
+queue_schema_state=$(bin/rails runner 'connection = SolidQueue::Job.connection; expected = %w[solid_queue_blocked_executions solid_queue_claimed_executions solid_queue_failed_executions solid_queue_jobs solid_queue_pauses solid_queue_processes solid_queue_ready_executions solid_queue_recurring_executions solid_queue_recurring_tasks solid_queue_scheduled_executions solid_queue_semaphores]; existing = expected.count { |table| connection.data_source_exists?(table) }; puts existing.zero? ? "missing" : (existing == expected.length ? "complete" : "partial")')
+if [[ "$queue_schema_state" == "missing" ]]; then
+	# Load queue tables only when none exist, preserving any existing jobs.
+	DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bin/rails db:schema:load:queue
+elif [[ "$queue_schema_state" != "complete" ]]; then
+	echo "Solid Queue schema is partial; refusing to overwrite queue data automatically." >&2
 	exit 1
 fi
