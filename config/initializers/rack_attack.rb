@@ -24,4 +24,8 @@ class Rack::Attack
 
     Digest::SHA256.hexdigest([ email, request.ip ].join(":"))
   end
+
+  throttle("devise/two_factor_setup/ip", limit: 10, period: 15.minutes) do |request|
+    request.ip if request.post? && request.path == "/admin/two_factor_setup"
+  end
 end

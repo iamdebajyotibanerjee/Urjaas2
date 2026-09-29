@@ -1,0 +1,39 @@
+<div class="min-h-screen bg-slate-900 flex items-center justify-center px-4 py-12">
+  <div class="w-full max-w-lg rounded-2xl border border-slate-700 bg-slate-800 p-8 text-white shadow-2xl">
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-wider text-indigo-300">Admin security</p>
+      <h1 class="mt-2 text-2xl font-bold">Change your password</h1>
+      <p class="mt-2 text-sm text-slate-300">Confirm your current password and choose a new password with at least 16 characters.</p>
+    </div>
+
+    <% if current_user.errors.any? %>
+      <div class="mt-5 rounded-lg border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-300" role="alert">
+        <ul class="list-disc space-y-1 pl-5">
+          <% current_user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_with model: current_user, url: admin_password_path, method: :patch, class: "mt-6 space-y-4" do |form| %>
+      <div>
+        <%= form.label :current_password, "Current password", class: "mb-1 block text-sm font-medium text-slate-200" %>
+        <%= form.password_field :current_password, required: true, autocomplete: "current-password", class: "w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-3 text-sm text-white" %>
+      </div>
+      <div>
+        <%= form.label :password, "New password", class: "mb-1 block text-sm font-medium text-slate-200" %>
+        <%= form.password_field :password, required: true, minlength: 16, autocomplete: "new-password", class: "w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-3 text-sm text-white" %>
+      </div>
+      <div>
+        <%= form.label :password_confirmation, "Confirm new password", class: "mb-1 block text-sm font-medium text-slate-200" %>
+        <%= form.password_field :password_confirmation, required: true, minlength: 16, autocomplete: "new-password", class: "w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-3 text-sm text-white" %>
+      </div>
+
+      <div class="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-between">
+        <%= link_to "Cancel", landing_pages_path, class: "rounded-lg border border-slate-600 px-4 py-3 text-center text-sm font-semibold text-slate-200 hover:bg-slate-700" %>
+        <%= form.submit "Update password", class: "rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white hover:bg-indigo-500" %>
+      </div>
+    <% end %>
+  </div>
+</div>

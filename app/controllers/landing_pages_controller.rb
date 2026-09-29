@@ -1,6 +1,7 @@
 class LandingPagesController < ApplicationController
   # Require authentication for the index (dashboard) action
   before_action :authenticate_user!, only: [ :index ]
+  before_action :require_two_factor_for_dashboard, only: [ :index ]
 
   # Render without admin sidebar / navbar layout
   layout "landing_page"
@@ -37,5 +38,11 @@ class LandingPagesController < ApplicationController
     # Temporarily allow draft viewing if preview param is passed,
     # or if coming from the admin editor referer.
     params[:preview] == "true" || request.referer&.include?("/admin/")
+  end
+
+  def require_two_factor_for_dashboard
+    return if current_user&.two_factor_enabled?
+
+    redirect_to admin_two_factor_setup_path
   end
 end

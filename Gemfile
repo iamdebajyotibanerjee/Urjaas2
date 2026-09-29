@@ -69,6 +69,7 @@ end
 
 gem "devise", "~> 5.0"
 gem "rack-attack", "~> 6.8"
+gem "devise-two-factor", "~> 6.4"
 
 # Cloudflare R2 storage support for Active Storage
 gem "aws-sdk-s3", require: false
