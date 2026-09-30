@@ -28,3 +28,12 @@ elif [[ "$queue_schema_state" != "complete" ]]; then
 	echo "Solid Queue schema is partial; refusing to overwrite queue data automatically." >&2
 	exit 1
 fi
+
+users_seeded=$(bundle exec rails runner 'print User.exists?')
+if [[ "$users_seeded" == "false" ]]; then
+	# The initial admin password comes from Hatchbox's protected environment variables.
+	bundle exec rails db:seed
+elif [[ "$users_seeded" != "true" ]]; then
+	echo "Unable to determine whether the initial admin user has been seeded." >&2
+	exit 1
+fi

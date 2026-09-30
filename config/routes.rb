@@ -16,6 +16,9 @@ Rails.application.routes.draw do
 
   # Admin Namespace
   namespace :admin do
+    resource :two_factor_setup, only: [ :show, :create ], controller: "two_factor_setups"
+    resource :password, only: [ :edit, :update ], controller: "passwords"
+
     resources :landing_pages do
       member do
         patch :toggle_publish

@@ -4,6 +4,10 @@
 # and recreated between test runs. Don't rely on the data there!
 
 Rails.application.configure do
+  config.active_record.encryption.primary_key = "0123456789abcdef0123456789abcdef"
+  config.active_record.encryption.deterministic_key = "abcdef0123456789abcdef0123456789"
+  config.active_record.encryption.key_derivation_salt = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # While tests run files are not watched, reloading is not necessary.

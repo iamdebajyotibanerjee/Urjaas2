@@ -34,7 +34,13 @@ module Admin
     test "uploads hero and item images to their page block" do
       landing_page = LandingPage.create!(title: "Upload Test #{SecureRandom.hex(4)}")
       block = landing_page.page_blocks.create!(block_type: "hero", content: { "items" => [ { "title" => "Feature" } ] })
-      sign_in User.create!(email: User::ADMIN_EMAIL, password: "secure-password-123")
+      admin = User.create!(
+        email: User::ADMIN_EMAIL,
+        password: "secure-password-123",
+        otp_secret: User.generate_otp_secret,
+        otp_required_for_login: true
+      )
+      sign_in admin
       hero_file = uploaded_png("hero.png")
       feature_file = uploaded_png("feature.png")
 
