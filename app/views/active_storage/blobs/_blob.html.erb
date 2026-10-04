@@ -1,6 +1,6 @@
 <figure class="attachment attachment--<%= blob.representable? ? "preview" : "file" %> attachment--<%= blob.filename.extension %>">
   <% if blob.representable? %>
-    <%= image_tag main_app.rails_storage_proxy_path(blob), alt: blob.filename.to_s %>
+    <%= image_tag main_app.rails_storage_proxy_path(blob), alt: blob.try(:node)&.[]("alt").presence || blob.filename.to_s %>
   <% else %>
     <%= link_to blob.filename.to_s, main_app.rails_storage_proxy_path(blob) %>
   <% end %>

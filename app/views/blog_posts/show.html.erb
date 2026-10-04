@@ -1,19 +1,24 @@
-<article class="max-w-3xl mx-auto px-4 sm:px-6 py-12 space-y-8">
-  <div class="space-y-4 border-b border-slate-200 pb-8">
-    <%= link_to "← Back to Articles", blog_posts_path, class: "text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition inline-block" %>
-    
-    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+<% content_for :title, "#{@blog_post.title} | Articles" %>
+<% content_for :head do %>
+  <meta name="description" content="<%= truncate(@blog_post.content.to_plain_text.squish, length: 160) %>">
+<% end %>
+
+<article class="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-16">
+  <header class="mx-auto max-w-3xl space-y-6 border-b border-slate-200 pb-9 text-center sm:pb-11">
+    <%= link_to "← All articles", blog_posts_path, class: "inline-flex items-center rounded-full border border-indigo-100 bg-white px-4 py-2 text-sm font-semibold text-indigo-700 shadow-sm transition hover:border-indigo-200 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+
+    <h1 class="text-4xl font-black leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
       <%= @blog_post.title %>
     </h1>
-    
-    <div class="flex items-center gap-3 text-xs text-slate-500">
-      <span>Published <%= @blog_post.created_at.strftime("%B %d, %Y") %></span>
-      <span>•</span>
-      <span><%= (reading_time = (@blog_post.content.to_s.split.size / 200.0).ceil) %> min read</span>
-    </div>
-  </div>
 
-  <div class="text-slate-800 text-sm sm:text-base leading-relaxed whitespace-pre-wrap font-sans">
+    <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-slate-600 sm:text-base">
+      <time datetime="<%= @blog_post.created_at.iso8601 %>" class="font-medium"><%= @blog_post.created_at.strftime("%B %d, %Y") %></time>
+      <span aria-hidden="true" class="text-slate-300">•</span>
+      <span><%= [(@blog_post.content.to_plain_text.split.size / 200.0).ceil, 1].max %> min read</span>
+    </div>
+  </header>
+
+  <div class="blog-reading-content mx-auto mt-10 max-w-[70ch] sm:mt-14">
     <%= @blog_post.content %>
   </div>
 </article>

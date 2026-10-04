@@ -57,6 +57,9 @@ group :development, :test do
 end
 
 group :development do
+  # Load local-only values from .env.development.local.
+  gem "dotenv", require: "dotenv/load"
+
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 end

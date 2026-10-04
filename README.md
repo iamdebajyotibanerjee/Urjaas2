@@ -17,6 +17,18 @@ Fundamentally, it is an enabling platform for YouTubers, speakers, writers, podc
 
 ## Production admin bootstrap and two-factor authentication
 
+### Local development encryption setup
+
+Active Record encrypts the administrator's authenticator secret. Generate a development key set with `bin/rails db:encryption:init`, then place the three generated values in the ignored `.env.development.local` file using the variable names below. Keep the same values for this development database; changing them makes previously encrypted values unreadable. Restart the development server after adding them.
+
+```dotenv
+ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=...generated value...
+ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY=...generated value...
+ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT=...generated value...
+```
+
+The `.env.development.local` file is excluded from Git. Never use development keys in production.
+
 Configure these secrets in Hatchbox before deploying:
 
 - `ADMIN_EMAIL`: the single allowed administrator email.

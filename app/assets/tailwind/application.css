@@ -9,3 +9,143 @@
 @theme {
   --font-sans: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
+
+@layer components {
+  .blog-reading-content {
+    color: #3f4b5d;
+    background: transparent;
+    font-family: "Merriweather", Georgia, serif;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .blog-reading-content > * + *,
+  .blog-reading-content .trix-content > * + * {
+    margin-top: 0.65em;
+  }
+
+  .blog-reading-content .trix-content h2,
+  .blog-reading-content .trix-content h3,
+  .blog-reading-content h2,
+  .blog-reading-content h3 {
+    color: #1f2937 !important;
+    font-family: "Roboto", system-ui, sans-serif !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.025em !important;
+    scroll-margin-top: 2rem !important;
+    margin-bottom: 0.15em !important;
+  }
+
+  .blog-reading-content .trix-content h2,
+  .blog-reading-content h2 {
+    margin-top: 0.525em !important;
+    font-size: clamp(2rem, 4vw, 2.8rem) !important;
+  }
+
+  .blog-reading-content .trix-content h3,
+  .blog-reading-content h3 {
+    margin-top: 0.45em !important;
+    font-size: clamp(1.55rem, 3vw, 2.1rem) !important;
+  }
+
+  .blog-reading-content .trix-content p,
+  .blog-reading-content p {
+    margin-top: 0;
+    margin-bottom: 0.375em;
+  }
+
+  .blog-reading-content a {
+    color: #4338ca;
+    text-decoration: underline;
+    text-decoration-color: #c7d2fe;
+    text-underline-offset: 0.2em;
+  }
+
+  .blog-reading-content a:hover {
+    color: #312e81;
+    text-decoration-color: currentColor;
+  }
+
+  .blog-reading-content blockquote {
+    margin: 2.75em 0;
+    border-left: 4px solid #818cf8;
+    border-radius: 0 0.75rem 0.75rem 0;
+    background: #eef2ff;
+    padding: 1.25rem 1.5rem;
+    color: #3730a3;
+    font-size: 1.2em;
+    line-height: 1.75;
+  }
+
+  .blog-reading-content ul,
+  .blog-reading-content ol {
+    margin: 2.25em 0;
+    padding-left: 1.6em;
+  }
+
+  .blog-reading-content ul {
+    list-style: disc;
+  }
+
+  .blog-reading-content ol {
+    list-style: decimal;
+  }
+
+  .blog-reading-content li + li {
+    margin-top: 0.55em;
+    padding-left: 0.2em;
+  }
+
+  .blog-reading-content figure.attachment {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    margin: 3rem auto;
+    text-align: center;
+  }
+
+  .blog-reading-content figure.attachment img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 1rem;
+    box-shadow: 0 12px 30px rgb(15 23 42 / 12%);
+  }
+
+  .blog-reading-content .attachment__caption {
+    display: block;
+    margin-top: 0.85rem;
+    color: #64748b;
+    font-family: "Roboto", system-ui, sans-serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .blog-reading-content pre {
+    overflow-x: auto;
+    border-radius: 0.75rem;
+    background: #0f172a;
+    padding: 1rem 1.25rem;
+    color: #f8fafc;
+    font-family: "Source Code Pro", monospace;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 640px) {
+    .blog-reading-content {
+      font-size: 1.05rem;
+      line-height: 1.85;
+    }
+
+    .blog-reading-content blockquote {
+      padding: 1rem 1.1rem;
+    }
+  }
+}

@@ -45,6 +45,30 @@ document.addEventListener("trix-initialize", (event) => {
 
   toolbar.querySelector('[data-trix-attribute="heading1"]')?.remove()
 
+  const altTextButton = document.createElement("button")
+  altTextButton.type = "button"
+  altTextButton.className = "trix-button trix-button--image-alt"
+  altTextButton.textContent = "Image alt text"
+  altTextButton.title = "Add descriptive alternative text to the selected image"
+  altTextButton.setAttribute("aria-label", altTextButton.title)
+  altTextButton.addEventListener("mousedown", (clickEvent) => clickEvent.preventDefault())
+  altTextButton.addEventListener("click", () => {
+    const [start] = event.target.getSelectedRange()
+    const document = event.target.getDocument()
+    const piece = document.getPieceAtPosition(start) || (start > 0 && document.getPieceAtPosition(start - 1))
+    const attachment = piece?.attachment
+
+    if (!attachment?.isPreviewable()) {
+      window.alert("Select an image in the article first.")
+      return
+    }
+
+    const currentAlt = attachment.getAttribute("alt") || ""
+    const altText = window.prompt("Describe this image for readers who use screen readers:", currentAlt)
+    if (altText !== null) attachment.setAttribute("alt", altText.trim())
+  })
+  toolbar.querySelector(".trix-button-row")?.append(altTextButton)
+
   const formattingGroup = document.createElement("div")
   formattingGroup.className = "trix-button-group trix-custom-formatting"
 
