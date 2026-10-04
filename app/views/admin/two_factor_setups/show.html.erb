@@ -1,0 +1,29 @@
+<div class="min-h-screen bg-slate-900 flex items-center justify-center px-4 py-12">
+  <div class="w-full max-w-lg rounded-2xl border border-slate-700 bg-slate-800 p-8 text-white shadow-2xl">
+    <h1 class="text-2xl font-bold">Secure your admin account</h1>
+    <p class="mt-3 text-sm text-slate-300">
+      Add this account to an authenticator app (such as Google Authenticator, 1Password, or Authy),
+      then enter the current six-digit code to finish setup. Admin pages remain locked until verification succeeds.
+    </p>
+
+    <% if flash[:alert].present? %>
+      <p class="mt-4 rounded-lg border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-300"><%= flash[:alert] %></p>
+    <% end %>
+
+    <div class="mt-6 rounded-lg bg-slate-900 p-4">
+      <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">Setup key</p>
+      <code class="mt-2 block break-all text-lg tracking-widest"><%= current_user.otp_secret %></code>
+      <p class="mt-3 text-xs text-slate-400">Keep this key private. Anyone with it and your password can generate sign-in codes.</p>
+    </div>
+
+    <%= form_with url: admin_two_factor_setup_path, scope: :two_factor_setup, method: :post, class: "mt-6 space-y-4" do |form| %>
+      <div>
+        <%= form.label :otp_attempt, "Authenticator code", class: "mb-1 block text-sm font-medium text-slate-200" %>
+        <%= form.text_field :otp_attempt, required: true, inputmode: "numeric", autocomplete: "one-time-code", pattern: "[0-9 ]{6,8}", maxlength: 8, class: "w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-3 text-center text-lg tracking-[0.35em] text-white", autofocus: true %>
+      </div>
+      <%= form.submit "Verify and enable two-factor authentication", class: "w-full rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white hover:bg-indigo-500" %>
+    <% end %>
+
+    <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "mt-4 w-full text-sm text-slate-400 hover:text-white" %>
+  </div>
+</div>

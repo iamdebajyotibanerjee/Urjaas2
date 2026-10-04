@@ -1,6 +1,6 @@
 # app/controllers/admin/landing_pages_controller.rb
 module Admin
-  class LandingPagesController < ApplicationController
+  class LandingPagesController < BaseController
     before_action :set_landing_page, only: [ :edit, :update, :destroy, :toggle_publish ]
 
     def index

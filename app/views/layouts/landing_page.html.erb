@@ -7,13 +7,14 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%# Google Fonts - Inter %>
+    <%# Google Fonts used by the landing page blocks and rich text editor %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Merriweather:wght@400;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
 
     <%# Load compiled Tailwind CSS %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+      <%= stylesheet_link_tag "actiontext", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" rescue nil %>
     <%# <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true rescue nil %>
   </head>

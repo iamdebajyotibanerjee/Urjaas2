@@ -9,6 +9,10 @@
       <%= block.content&.dig("subtitle") || "The easiest way to launch beautiful, high-converting landing pages." %>
     </p>
 
+    <% if (image = block.image_blob_for(block.content&.dig("image_signed_id"))) %>
+      <%= image_tag image, class: "mx-auto mb-8 max-h-[32rem] w-full rounded-2xl object-cover shadow-lg", alt: block.content&.dig("title") || "Hero image" %>
+    <% end %>
+
     <% if block.content&.dig("cta_text").present? %>
       <a href="<%= block.content&.dig("cta_url") || "#" %>" 
          class="inline-flex items-center justify-center px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-base rounded-xl shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">

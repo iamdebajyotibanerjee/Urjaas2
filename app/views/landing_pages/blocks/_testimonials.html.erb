@@ -50,7 +50,9 @@
 
           <!-- Author Meta -->
           <div class="flex items-center gap-3.5 pt-4 border-t border-slate-200/60">
-            <% if testimonial["avatar_url"].present? %>
+            <% if (image = block.image_blob_for(testimonial)) %>
+              <%= image_tag image, alt: testimonial["author"], class: "w-11 h-11 rounded-full object-cover border border-slate-200" %>
+            <% elsif testimonial["avatar_url"].present? %>
               <img src="<%= testimonial["avatar_url"] %>" alt="<%= testimonial["author"] %>" class="w-11 h-11 rounded-full object-cover border border-slate-200" />
             <% else %>
               <div class="w-11 h-11 rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-sm">

@@ -68,5 +68,14 @@ group :test do
 end
 
 gem "devise", "~> 5.0"
-
 gem "lexxy", "~> 0.9.29"
+gem "rack-attack", "~> 6.8"
+gem "devise-two-factor", "~> 6.4"
+
+# Cloudflare R2 storage support for Active Storage
+gem "aws-sdk-s3", require: false
+
+group :production do
+  # Use libvips for Active Storage image processing in production
+  gem "ruby-vips"
+end

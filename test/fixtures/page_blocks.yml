@@ -3,11 +3,11 @@
 one:
   landing_page: one
   position: 1
-  block_type: MyString
+  block_type: hero
   content: 
 
 two:
   landing_page: two
   position: 1
-  block_type: MyString
+  block_type: hero
   content: 

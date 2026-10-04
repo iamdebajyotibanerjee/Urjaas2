@@ -20,6 +20,7 @@
       <% item = item.is_a?(Hash) ? item : {} %>
 
       <div class="bg-gray-50 p-2.5 rounded border mb-2 space-y-2">
+        <%= hidden_field_tag "page_block[content_data][items][#{idx}][image_signed_id]", item["image_signed_id"] %>
         <input type="text" 
                name="page_block[content_data][items][<%= idx %>][title]" 
                value="<%= item["title"] %>" 
@@ -30,6 +31,12 @@
                   rows="2" 
                   placeholder="Item Description" 
                   class="w-full text-xs border rounded p-1.5"><%= item["description"] %></textarea>
+
+        <label class="block text-xs font-medium text-gray-700">Feature Image</label>
+        <%= f.file_field "images][#{idx}", accept: "image/*", class: "w-full text-xs border rounded p-1.5" %>
+        <% if (image = f.object.image_blob_for(item)) %>
+          <%= image_tag image, class: "h-20 w-20 rounded object-cover", alt: item["title"] %>
+        <% end %>
       </div>
     <% end %>
   </div>
