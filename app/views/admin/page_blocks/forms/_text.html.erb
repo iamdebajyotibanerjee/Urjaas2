@@ -32,16 +32,21 @@
     </div>
   </div>
 
-  <%# Layout & Alignment Settings %>
-  <div class="border-b border-slate-200 pb-4">
-    <%= label_tag "page_block[content][alignment]", "Text Alignment", class: "block text-xs font-medium text-slate-600 mb-1" %>
-    <%= select_tag "page_block[content][alignment]", 
-          options_for_select([
-            ["Left Aligned", "text-left"],
-            ["Center Aligned", "text-center"],
-            ["Right Aligned", "text-right"]
-          ], f.object.parsed_content["alignment"] || "text-left"),
-          class: "w-full rounded-md border-slate-300 shadow-sm text-sm" %>
+  <%# Keep heading and body alignment independent. Fall back to the old shared setting for existing blocks. %>
+  <div class="border-b border-slate-200 pb-4 space-y-4">
+    <% alignment_options = [["Left Aligned", "text-left"], ["Center Aligned", "text-center"], ["Right Aligned", "text-right"]] %>
+    <div>
+      <%= label_tag "page_block[content][title_alignment]", "Heading Alignment", class: "block text-xs font-medium text-slate-600 mb-1" %>
+      <%= select_tag "page_block[content][title_alignment]",
+            options_for_select(alignment_options, f.object.parsed_content["title_alignment"] || f.object.parsed_content["alignment"] || "text-left"),
+            class: "w-full rounded-md border-slate-300 shadow-sm text-sm" %>
+    </div>
+    <div>
+      <%= label_tag "page_block[content][body_alignment]", "Body Alignment", class: "block text-xs font-medium text-slate-600 mb-1" %>
+      <%= select_tag "page_block[content][body_alignment]",
+            options_for_select(alignment_options, f.object.parsed_content["body_alignment"] || f.object.parsed_content["alignment"] || "text-left"),
+            class: "w-full rounded-md border-slate-300 shadow-sm text-sm" %>
+    </div>
   </div>
 
   <%# Body Text Settings %>
